@@ -1,21 +1,28 @@
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { Badge } from "@/components/ui/Badge";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = { title: "Blog & News" };
+export const metadata: Metadata = {
+  title: "Blog & News — Charis Prayer",
+  description: "Teachings, devotionals, and ministry updates from Charis Prayer.",
+};
 
 const POSTS = [
-  { id: 1, title: "5 Powerful Prayers for Breakthrough", category: "Prayer", author: "Rev Emmanuel Oduro Cosby", date: "May 15, 2025", excerpt: "Discover five powerful prayers that will unlock breakthrough in every area of your life.", readTime: "5 min read" },
-  { id: 2, title: "Understanding the Power of Midnight Prayer", category: "Teaching", author: "Rev Emmanuel Oduro Cosby", date: "May 10, 2025", excerpt: "Why midnight is a strategic time for spiritual warfare and intercession.", readTime: "7 min read" },
-  { id: 3, title: "How to Build a Daily Prayer Habit", category: "Devotional", author: "Admin", date: "May 8, 2025", excerpt: "Practical steps to establish a consistent and powerful daily prayer routine.", readTime: "4 min read" },
-  { id: 4, title: "The Science of Answered Prayer", category: "Faith", author: "Rev Emmanuel Oduro Cosby", date: "May 1, 2025", excerpt: "Exploring the biblical principles behind why God answers prayer.", readTime: "6 min read" },
-  { id: 5, title: "Morning Prayer: Why 5AM Changes Everything", category: "Prayer", author: "Rev Emmanuel Oduro Cosby", date: "Apr 25, 2025", excerpt: "The spiritual significance of the early morning hour and why our prayer sessions begin at 5AM.", readTime: "5 min read" },
-  { id: 6, title: "Healing Through Prayer: Real Stories", category: "Testimony", author: "Admin", date: "Apr 18, 2025", excerpt: "Documented accounts of miraculous healings through the Charis Prayer ministry.", readTime: "8 min read" },
+  { id: 1, emoji: "⚡", title: "5 Powerful Prayers for Breakthrough", category: "Prayer", author: "Rev Emmanuel Oduro Cosby", date: "May 15, 2025", excerpt: "Discover five powerful prayers that will unlock breakthrough in every area of your life.", readTime: "5 min read", color: "from-amber-500/20 to-amber-900/30" },
+  { id: 2, emoji: "🌙", title: "Understanding the Power of Midnight Prayer", category: "Teaching", author: "Rev Emmanuel Oduro Cosby", date: "May 10, 2025", excerpt: "Why midnight is a strategic time for spiritual warfare and intercession.", readTime: "7 min read", color: "from-blue-600/20 to-blue-900/30" },
+  { id: 3, emoji: "📿", title: "How to Build a Daily Prayer Habit", category: "Devotional", author: "Admin", date: "May 8, 2025", excerpt: "Practical steps to establish a consistent and powerful daily prayer routine.", readTime: "4 min read", color: "from-emerald-600/20 to-emerald-900/30" },
+  { id: 4, emoji: "✨", title: "The Science of Answered Prayer", category: "Faith", author: "Rev Emmanuel Oduro Cosby", date: "May 1, 2025", excerpt: "Exploring the biblical principles behind why God answers prayer.", readTime: "6 min read", color: "from-purple-600/20 to-purple-900/30" },
+  { id: 5, emoji: "🌅", title: "Morning Prayer: Why 5AM Changes Everything", category: "Prayer", author: "Rev Emmanuel Oduro Cosby", date: "Apr 25, 2025", excerpt: "The spiritual significance of the early morning hour and why our prayer sessions begin at 5AM.", readTime: "5 min read", color: "from-amber-500/20 to-orange-900/30" },
+  { id: 6, emoji: "🕊️", title: "Healing Through Prayer: Real Stories", category: "Testimony", author: "Admin", date: "Apr 18, 2025", excerpt: "Documented accounts of miraculous healings through the Charis Prayer ministry.", readTime: "8 min read", color: "from-sky-600/20 to-sky-900/30" },
 ];
 
-const catColor: Record<string, "gold" | "blue" | "green" | "purple" | "red"> = {
-  Prayer: "gold", Teaching: "blue", Devotional: "green", Faith: "purple", Testimony: "green", News: "red",
+const catStyle: Record<string, string> = {
+  Prayer:     "bg-amber-400/15 text-amber-400 border-amber-400/25",
+  Teaching:   "bg-blue-500/15 text-blue-400 border-blue-400/25",
+  Devotional: "bg-emerald-500/15 text-emerald-400 border-emerald-400/25",
+  Faith:      "bg-purple-500/15 text-purple-400 border-purple-400/25",
+  Testimony:  "bg-sky-500/15 text-sky-400 border-sky-400/25",
+  News:       "bg-rose-500/15 text-rose-400 border-rose-400/25",
 };
 
 export default function BlogPage() {
@@ -23,29 +30,51 @@ export default function BlogPage() {
     <>
       <Navbar />
       <main>
-        <div className="bg-gradient-to-br from-[#0A1628] to-[#1a2e50] py-20 text-center">
-          <div className="text-amber-400 text-xs font-bold tracking-[3.5px] uppercase mb-4">Ministry Updates</div>
-          <h1 className="font-serif text-4xl sm:text-5xl font-bold text-white mb-4">Blog & News</h1>
-          <p className="text-white/50 max-w-md mx-auto font-light">Teachings, devotionals, and ministry updates from Charis Prayer.</p>
+        {/* Hero */}
+        <div className="relative bg-gradient-to-br from-[#04090f] via-[#0A1628] to-[#0d1e3a] pt-36 pb-20 sm:pt-44 sm:pb-28 overflow-hidden">
+          <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse at 50% 100%, rgba(201,162,39,0.09) 0%, transparent 55%)" }} />
+          <div className="absolute inset-0 opacity-[0.025]" style={{ backgroundImage: "radial-gradient(circle, #C9A227 1px, transparent 1px)", backgroundSize: "28px 28px" }} />
+          <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-amber-400/25 to-transparent" />
+
+          <div className="relative z-10 text-center max-w-3xl mx-auto px-4">
+            <p className="eyebrow mb-4">Ministry Updates</p>
+            <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-5 leading-tight">
+              Blog &amp; News
+            </h1>
+            <div className="section-divider" />
+            <p className="text-white/50 max-w-md mx-auto font-light leading-relaxed mt-5 text-base sm:text-lg">
+              Teachings, devotionals, and ministry updates from Charis Prayer.
+            </p>
+          </div>
         </div>
 
-        <section className="py-20 bg-[#fafaf7]">
+        {/* Blog grid */}
+        <section className="py-20 sm:py-28 bg-[#fafaf8]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
               {POSTS.map(p => (
-                <article key={p.id} className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm card-hover cursor-pointer">
-                  <div className="h-44 bg-gradient-to-br from-[#0A1628] to-[#1a2e50] flex items-center justify-center">
-                    <div className="text-5xl">📖</div>
-                  </div>
-                  <div className="p-6">
-                    <div className="flex items-center gap-2 mb-3">
-                      <Badge variant={catColor[p.category] ?? "gold"}>{p.category}</Badge>
-                      <span className="text-gray-400 text-xs">{p.readTime}</span>
+                <article key={p.id} className="card-premium overflow-hidden cursor-pointer group">
+                  {/* Cover */}
+                  <div className={`h-44 bg-gradient-to-br ${p.color} bg-[#0d1a30] flex items-center justify-center relative overflow-hidden`}>
+                    <span className="text-6xl select-none group-hover:scale-110 transition-transform duration-500">{p.emoji}</span>
+                    <div className="absolute top-3 left-3">
+                      <span className={`inline-block text-[10px] font-bold tracking-widest uppercase px-2.5 py-1 rounded-lg border ${catStyle[p.category] ?? catStyle.Prayer}`}>
+                        {p.category}
+                      </span>
                     </div>
-                    <h2 className="font-serif text-lg font-bold text-[#0A1628] mb-2 leading-snug">{p.title}</h2>
-                    <p className="text-gray-500 text-sm leading-relaxed mb-4 font-light">{p.excerpt}</p>
-                    <div className="flex justify-between items-center text-xs text-gray-400">
-                      <span>{p.author}</span>
+                    <div className="absolute bottom-3 right-3 bg-black/40 text-white/70 text-[10px] font-medium px-2.5 py-1 rounded-lg">
+                      {p.readTime}
+                    </div>
+                  </div>
+
+                  {/* Body */}
+                  <div className="p-6">
+                    <h2 className="font-serif text-lg font-bold text-[#0A1628] mb-2 leading-snug group-hover:text-amber-700 transition-colors">
+                      {p.title}
+                    </h2>
+                    <p className="text-gray-500 text-sm leading-relaxed mb-5 font-light line-clamp-2">{p.excerpt}</p>
+                    <div className="flex justify-between items-center text-xs text-gray-400 border-t border-gray-100 pt-4">
+                      <span className="font-medium text-gray-500 truncate max-w-[140px]">{p.author}</span>
                       <span>{p.date}</span>
                     </div>
                   </div>

@@ -1,104 +1,144 @@
 "use client";
 
 import { useAudio } from "@/context/AudioContext";
-import { Play, Pause, X, SkipForward, SkipBack, Volume2 } from "lucide-react";
-import { useEffect, useState, useRef } from "react";
+import { Play, Pause, X, SkipForward, SkipBack, Volume2, VolumeX } from "lucide-react";
+import { useEffect, useState, useRef, useCallback } from "react";
 
 function formatTime(seconds: number) {
-  if (isNaN(seconds)) return "0:00";
+  if (isNaN(seconds) || seconds < 0) return "0:00";
   const m = Math.floor(seconds / 60);
   const s = Math.floor(seconds % 60);
   return `${m}:${s.toString().padStart(2, "0")}`;
 }
 
 export function GlobalAudioPlayer() {
-  const { currentTrack, isPlaying, progress, duration, togglePlayPause, seek, closePlayer, audioRef } = useAudio();
-  const [isHovering, setIsHovering] = useState(false);
-  const progressBarRef = useRef<HTMLDivElement>(null);
+  const { currentTrack, isPlaying, progress, duration, togglePlayPause, seek, closePlayer } = useAudio();
+  const [volume, setVolume] = useState(1);
+  const [muted, setMuted] = useState(false);
+  const [dragging, setDragging] = useState(false);
+  const progressRef = useRef<HTMLDivElement>(null);
+
+  const pct = duration > 0 ? (progress / duration) * 100 : 0;
+
+  const getPos = useCallback((e: React.MouseEvent | MouseEvent) => {
+    if (!progressRef.current) return 0;
+    const rect = progressRef.current.getBoundingClientRect();
+    return Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+  }, []);
+
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    seek(getPos(e) * duration);
+  };
+
+  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    setDragging(true);
+    seek(getPos(e) * duration);
+  };
+
+  useEffect(() => {
+    if (!dragging) return;
+    const onMove = (e: MouseEvent) => seek(getPos(e) * duration);
+    const onUp = () => setDragging(false);
+    window.addEventListener("mousemove", onMove);
+    window.addEventListener("mouseup", onUp);
+    return () => { window.removeEventListener("mousemove", onMove); window.removeEventListener("mouseup", onUp); };
+  }, [dragging, duration, getPos, seek]);
 
   if (!currentTrack) return null;
 
-  const handleProgressClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!progressBarRef.current) return;
-    const rect = progressBarRef.current.getBoundingClientRect();
-    const pos = (e.clientX - rect.left) / rect.width;
-    seek(pos * duration);
-  };
-
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 animate-slide-up">
-      {/* Progress Bar Area */}
-      <div 
-        ref={progressBarRef}
-        className="h-1.5 bg-gray-200 cursor-pointer relative group"
-        onClick={handleProgressClick}
-        onMouseEnter={() => setIsHovering(true)}
-        onMouseLeave={() => setIsHovering(false)}
+    <div className="fixed bottom-0 left-0 right-0 z-50">
+      {/* Progress scrubber — above main bar */}
+      <div
+        ref={progressRef}
+        className="h-1 bg-white/10 cursor-pointer group relative"
+        onClick={handleClick}
+        onMouseDown={handleMouseDown}
       >
-        <div 
-          className="h-full bg-amber-500 relative transition-all duration-100 ease-linear"
-          style={{ width: `${(progress / (duration || 1)) * 100}%` }}
+        <div
+          className="h-full bg-gradient-to-r from-amber-500 to-yellow-400 relative transition-none"
+          style={{ width: `${pct}%` }}
         >
-          {isHovering && (
-            <div className="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 bg-amber-600 rounded-full shadow-md" />
-          )}
+          <div className="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-amber-400 opacity-0 group-hover:opacity-100 transition-opacity shadow-lg" />
         </div>
       </div>
 
-      {/* Main Player Bar */}
-      <div className="bg-white/90 backdrop-blur-xl border-t border-gray-200 px-4 py-3 sm:px-6 shadow-[0_-10px_40px_rgba(0,0,0,0.05)]">
-        <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
-          
-          {/* Left: Track Info */}
+      {/* Main player bar */}
+      <div className="bg-[#0A1628]/95 backdrop-blur-xl border-t border-white/8 px-4 sm:px-6 py-3">
+        <div className="max-w-7xl mx-auto flex items-center gap-4 sm:gap-6">
+
+          {/* Left: track info */}
           <div className="flex items-center gap-3 flex-1 min-w-0">
-            <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-[#0A1628] to-[#1a2e50] flex items-center justify-center shrink-0 overflow-hidden shadow-sm">
-              {currentTrack.cover ? (
-                <img src={currentTrack.cover} alt={currentTrack.title} className="w-full h-full object-cover" />
-              ) : (
-                <span className="text-xl">🎵</span>
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-amber-500/20 to-amber-500/5 border border-amber-400/20 flex items-center justify-center flex-shrink-0">
+              <span className="text-xl">{currentTrack.cover ? undefined : "🎵"}</span>
+              {currentTrack.cover && (
+                <img src={currentTrack.cover} alt={currentTrack.title} className="w-full h-full object-cover rounded-xl" />
               )}
             </div>
             <div className="min-w-0">
-              <h4 className="font-semibold text-[#0A1628] text-sm truncate">{currentTrack.title}</h4>
-              <p className="text-gray-500 text-xs truncate">{currentTrack.author || "Charis Prayer"}</p>
+              <p className="text-white text-xs sm:text-sm font-semibold truncate leading-tight">{currentTrack.title}</p>
+              <p className="text-white/40 text-[11px] truncate mt-0.5">{currentTrack.author || "Charis Prayer"}</p>
             </div>
           </div>
 
-          {/* Center: Controls */}
-          <div className="flex flex-col items-center gap-1 shrink-0">
-            <div className="flex items-center gap-4">
-              <button className="text-gray-400 hover:text-gray-700 transition-colors hidden sm:block">
-                <SkipBack className="w-5 h-5" />
-              </button>
-              <button 
-                onClick={togglePlayPause}
-                className="w-10 h-10 rounded-full bg-[#0A1628] text-amber-400 flex items-center justify-center hover:bg-[#1a2e50] transition-colors shadow-md"
-              >
-                {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5 ml-1" />}
-              </button>
-              <button className="text-gray-400 hover:text-gray-700 transition-colors hidden sm:block">
-                <SkipForward className="w-5 h-5" />
-              </button>
-            </div>
-          </div>
-
-          {/* Right: Time & Close */}
-          <div className="flex items-center justify-end gap-6 flex-1 text-xs text-gray-500 font-medium">
-            <div className="hidden sm:flex items-center gap-2">
-              <span>{formatTime(progress)}</span>
-              <span>/</span>
-              <span>{formatTime(duration)}</span>
-            </div>
-            <div className="hidden md:flex items-center gap-2 text-gray-400">
-              <Volume2 className="w-4 h-4" />
-              <input type="range" className="w-16 h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer" />
-            </div>
-            <button 
-              onClick={closePlayer}
-              className="text-gray-400 hover:text-red-500 p-2 -mr-2 transition-colors"
-              title="Close Player"
+          {/* Center: controls */}
+          <div className="flex items-center gap-3 sm:gap-4 flex-shrink-0">
+            <button className="text-white/30 hover:text-white/70 transition-colors hidden sm:block p-1">
+              <SkipBack className="w-4 h-4" />
+            </button>
+            <button
+              onClick={togglePlayPause}
+              className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-amber-400 text-[#0A1628] flex items-center justify-center hover:bg-yellow-300 transition-colors shadow-lg shadow-amber-400/25 flex-shrink-0"
             >
-              <X className="w-5 h-5" />
+              {isPlaying
+                ? <Pause className="w-4 h-4 sm:w-5 sm:h-5" />
+                : <Play className="w-4 h-4 sm:w-5 sm:h-5 ml-0.5" />}
+            </button>
+            <button className="text-white/30 hover:text-white/70 transition-colors hidden sm:block p-1">
+              <SkipForward className="w-4 h-4" />
+            </button>
+          </div>
+
+          {/* Right: time + volume + close */}
+          <div className="flex items-center gap-3 sm:gap-4 flex-1 justify-end">
+            <span className="text-white/35 text-xs font-mono hidden sm:block tabular-nums">
+              {formatTime(progress)} / {formatTime(duration)}
+            </span>
+
+            {/* Volume */}
+            <div className="hidden md:flex items-center gap-2">
+              <button
+                onClick={() => setMuted(m => !m)}
+                className="text-white/40 hover:text-white/70 transition-colors"
+              >
+                {muted || volume === 0 ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+              </button>
+              <div className="relative w-16 h-1 bg-white/15 rounded-full cursor-pointer group"
+                onClick={(e) => {
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  const v = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+                  setVolume(v);
+                  setMuted(false);
+                }}>
+                <div className="h-full bg-white/60 rounded-full" style={{ width: `${muted ? 0 : volume * 100}%` }} />
+              </div>
+            </div>
+
+            {/* Wave bars (when playing) */}
+            {isPlaying && (
+              <div className="hidden sm:flex items-end gap-0.5 h-4">
+                {[12, 18, 14, 20, 16].map((h, i) => (
+                  <div key={i} className="wave-bar" style={{ height: h, animationDelay: `${i * 0.12}s` }} />
+                ))}
+              </div>
+            )}
+
+            <button
+              onClick={closePlayer}
+              className="text-white/30 hover:text-white/70 hover:bg-white/8 p-1.5 rounded-lg transition-all"
+              title="Close player"
+            >
+              <X className="w-4 h-4" />
             </button>
           </div>
         </div>

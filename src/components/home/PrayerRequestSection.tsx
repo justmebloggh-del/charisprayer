@@ -30,19 +30,19 @@ export function PrayerRequestSection() {
   };
 
   return (
-    <section className="py-24 sm:py-32 bg-gradient-to-br from-[#04090f] via-[#0A1628] to-[#0d1e3a] relative overflow-hidden">
+    <section className="section-py bg-gradient-to-br from-[#04090f] via-[#0A1628] to-[#0d1e3a] relative overflow-hidden">
       {/* Decorative radial glow */}
       <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse at 50% 0%, rgba(201,162,39,0.07) 0%, transparent 60%)" }} />
       <div className="absolute inset-0 opacity-[0.025]" style={{ backgroundImage: "radial-gradient(circle, #C9A227 1px, transparent 1px)", backgroundSize: "28px 28px" }} />
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-amber-400/30 to-transparent" />
 
-      <div className="relative max-w-7xl mx-auto px-5 sm:px-8 lg:px-10">
+      <div className="relative page-container">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-16 items-start">
 
           {/* Left info panel — 2 cols */}
           <div className="lg:col-span-2">
             <p className="eyebrow mb-4">We're Here For You</p>
-            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-5 leading-tight">
+            <h2 className="text-section font-serif font-bold text-white mb-5">
               We're Praying<br />For You
             </h2>
             <div className="w-14 h-0.5 bg-gradient-to-r from-amber-500 to-yellow-300 mb-7 rounded-full" />

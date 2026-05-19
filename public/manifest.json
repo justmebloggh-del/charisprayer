@@ -1,0 +1,50 @@
+{
+  "name": "Charis Prayer — Where Grace Meets Prayer",
+  "short_name": "Charis Prayer",
+  "description": "Stream daily prayer audios, watch live broadcasts, and experience God's presence daily. A global digital ministry led by Rev Emmanuel Oduro Cosby.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#04090f",
+  "theme_color": "#C9A227",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en",
+  "categories": ["religion", "spirituality", "music"],
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }
+  ],
+  "shortcuts": [
+    {
+      "name": "Daily Prayers",
+      "short_name": "Prayers",
+      "description": "Access the prayer audio library",
+      "url": "/prayers",
+      "icons": [{ "src": "/icon-96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Submit Prayer Request",
+      "short_name": "Pray For Me",
+      "description": "Submit a prayer request",
+      "url": "/prayer-request",
+      "icons": [{ "src": "/icon-96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Online Church",
+      "short_name": "Church",
+      "description": "Join online services",
+      "url": "/church",
+      "icons": [{ "src": "/icon-96.png", "sizes": "96x96" }]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshot-home.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Homepage with live prayer stream"
+    }
+  ]
+}

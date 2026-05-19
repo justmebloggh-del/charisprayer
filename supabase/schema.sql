@@ -56,7 +56,7 @@ CREATE TABLE public.prayer_requests (
   email TEXT,
   request TEXT NOT NULL,
   urgent BOOLEAN DEFAULT false NOT NULL,
-  private BOOLEAN DEFAULT false NOT NULL,
+  is_private BOOLEAN DEFAULT false NOT NULL,
   status prayer_request_status DEFAULT 'pending'::prayer_request_status NOT NULL,
   created_at TIMESTAMPTZ DEFAULT NOW() NOT NULL,
   updated_at TIMESTAMPTZ DEFAULT NOW() NOT NULL
@@ -147,7 +147,34 @@ CREATE POLICY "Admins can insert blog posts" ON public.blog_posts FOR INSERT WIT
 CREATE POLICY "Admins can update blog posts" ON public.blog_posts FOR UPDATE USING (public.is_admin());
 CREATE POLICY "Admins can delete blog posts" ON public.blog_posts FOR DELETE USING (public.is_admin());
 
--- Create Storage Buckets (requires execution by superuser, mock structure)
+-- Create Storage Buckets (run in Supabase SQL editor as superuser)
 -- INSERT INTO storage.buckets (id, name, public) VALUES ('audio_files', 'audio_files', true);
 -- INSERT INTO storage.buckets (id, name, public) VALUES ('cover_arts', 'cover_arts', true);
 -- INSERT INTO storage.buckets (id, name, public) VALUES ('gallery_images', 'gallery_images', true);
+
+-- Storage Policies
+-- CREATE POLICY "Public read audio_files" ON storage.objects FOR SELECT USING (bucket_id = 'audio_files');
+-- CREATE POLICY "Admin upload audio_files" ON storage.objects FOR INSERT WITH CHECK (bucket_id = 'audio_files' AND public.is_admin());
+-- CREATE POLICY "Admin delete audio_files" ON storage.objects FOR DELETE USING (bucket_id = 'audio_files' AND public.is_admin());
+-- CREATE POLICY "Public read cover_arts" ON storage.objects FOR SELECT USING (bucket_id = 'cover_arts');
+-- CREATE POLICY "Admin upload cover_arts" ON storage.objects FOR INSERT WITH CHECK (bucket_id = 'cover_arts' AND public.is_admin());
+
+-- Trigger: auto-create user profile on signup
+CREATE OR REPLACE FUNCTION public.handle_new_user()
+RETURNS TRIGGER AS $$
+BEGIN
+  INSERT INTO public.users (id, email, name, role)
+  VALUES (
+    NEW.id,
+    NEW.email,
+    COALESCE(NEW.raw_user_meta_data->>'name', split_part(NEW.email, '@', 1)),
+    'user'
+  )
+  ON CONFLICT (id) DO NOTHING;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+CREATE OR REPLACE TRIGGER on_auth_user_created
+  AFTER INSERT ON auth.users
+  FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();

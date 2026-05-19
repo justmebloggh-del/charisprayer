@@ -3,6 +3,13 @@ export const SITE_TAGLINE = "Where Grace Meets Prayer";
 export const FOUNDER_NAME = "Rev Emmanuel Oduro Cosby";
 export const WHATSAPP_CHANNEL = "https://whatsapp.com/channel/0029VaDoopf6xCSYcdwSu41r";
 export const YOUTUBE_CHANNEL = "https://youtube.com/@charisprayer";
+// YouTube Channel ID — used for live-stream embed in the Hero player
+// Replace with your real channel ID (UCxxxxxxxxxxxxxxxxxxxxxxxx) when available
+// Example: "UCxxxxxxxxxxxxxxxxxxxxxx" - get this from YouTube Studio
+export const YOUTUBE_CHANNEL_ID = ""; // Add your channel ID here for live streaming
+// Fallback video ID shown when no live stream / channel ID is set
+// Using a popular Christian worship/prayer video that embeds well
+export const YOUTUBE_FALLBACK_VIDEO_ID = "v-PjgYDrg70"; // "How Great Thou Art" - popular worship song
 export const PRAYER_TIME = "5:00 AM";
 
 export const PRAYER_CATEGORIES = [

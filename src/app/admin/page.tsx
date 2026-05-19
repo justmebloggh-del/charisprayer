@@ -1,26 +1,25 @@
-import { createClient } from '@/utils/supabase/server'
-import { redirect } from 'next/navigation'
-import AdminDashboard from './AdminDashboard'
-import { logout } from '@/app/login/actions'
+import { createClient } from "@/utils/supabase/server";
+import { AdminDashboard } from "./AdminDashboard";
+
+const IS_CONFIGURED =
+  (process.env.NEXT_PUBLIC_SUPABASE_URL ?? "").length > 0 &&
+  !process.env.NEXT_PUBLIC_SUPABASE_URL?.includes("placeholder");
 
 export default async function AdminPage() {
-  const supabase = await createClient()
+  let userObj = { email: "admin", role: "admin" };
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-
-  if (!user) {
-    redirect('/login')
+  if (IS_CONFIGURED) {
+    const { redirect } = await import("next/navigation");
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) redirect("/login");
+    if (user) {
+      userObj = {
+        email: user.email ?? "admin",
+        role: (user.user_metadata?.role as string) ?? "admin",
+      };
+    }
   }
 
-  // Format the user object for the AdminDashboard
-  const formattedUser = {
-    id: user.id,
-    email: user.email,
-    name: user.user_metadata?.name || 'Admin User',
-    role: user.user_metadata?.role || 'admin',
-  }
-
-  return <AdminDashboard user={formattedUser} onLogout={logout} />
+  return <AdminDashboard user={userObj} />;
 }

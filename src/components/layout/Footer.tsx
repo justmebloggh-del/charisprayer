@@ -12,10 +12,10 @@ const FOOTER_COLS = [
 export function Footer() {
   return (
     <footer className="bg-[#040810] text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 mb-14">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 sm:pt-16 pb-6 sm:pb-8">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-5 gap-8 sm:gap-10 mb-10 sm:mb-14">
           {/* Brand */}
-          <div className="lg:col-span-2">
+          <div className="col-span-2 lg:col-span-2">
             <CharisLogo size={48} animated textColor="white" className="mb-5" />
             <p className="text-white/40 text-sm leading-relaxed max-w-xs font-light mb-6">
               A global digital prayer ministry dedicated to igniting prayer movements and transforming lives through daily encounters with God's presence.

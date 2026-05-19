@@ -6,13 +6,13 @@ import Link from "next/link";
 
 export function FounderSection() {
   return (
-    <section className="py-24 bg-gradient-to-br from-[#070f1e] via-[#0A1628] to-[#0e1d38] relative overflow-hidden">
+    <section className="py-16 sm:py-24 bg-gradient-to-br from-[#070f1e] via-[#0A1628] to-[#0e1d38] relative overflow-hidden">
       {/* Decorative rings */}
-      <div className="absolute right-[-80px] top-[-80px] w-[500px] h-[500px] rounded-full border border-amber-400/6 pointer-events-none" />
-      <div className="absolute right-[-20px] top-[-20px] w-[350px] h-[350px] rounded-full border border-amber-400/4 pointer-events-none" />
+      <div className="hidden sm:block absolute right-[-80px] top-[-80px] w-[500px] h-[500px] rounded-full border border-amber-400/6 pointer-events-none" />
+      <div className="hidden sm:block absolute right-[-20px] top-[-20px] w-[350px] h-[350px] rounded-full border border-amber-400/4 pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center">
 
           {/* Portrait */}
           <div className="flex flex-col items-center">
@@ -20,11 +20,12 @@ export function FounderSection() {
               {/* Glow ring */}
               <div className="absolute inset-[-8px] rounded-3xl bg-gradient-to-br from-amber-400/20 to-purple-600/10 blur-xl" />
               {/* Photo frame */}
-              <div className="relative w-72 h-80 sm:w-80 sm:h-96 rounded-3xl overflow-hidden border-2 border-amber-400/25 shadow-2xl">
+              <div className="relative w-56 sm:w-72 lg:w-80 h-64 sm:h-80 lg:h-96 rounded-3xl overflow-hidden border-2 border-amber-400/25 shadow-2xl">
                 <Image
                   src="/rev-emmanuel.jpg"
                   alt={FOUNDER_NAME}
                   fill
+                  sizes="(max-width: 640px) 224px, (max-width: 1024px) 288px, 320px"
                   className="object-cover object-top"
                   priority
                 />
@@ -35,13 +36,13 @@ export function FounderSection() {
             </div>
 
             {/* Name card */}
-            <div className="mt-6 bg-amber-400/8 border border-amber-400/25 rounded-2xl px-8 py-4 text-center">
+            <div className="mt-6 bg-amber-400/8 border border-amber-400/25 rounded-2xl px-5 sm:px-8 py-4 text-center">
               <div className="font-serif text-white text-xl font-bold">{FOUNDER_NAME}</div>
               <div className="text-amber-400 text-xs tracking-[2px] uppercase mt-1.5">Founder & Lead Pastor</div>
             </div>
 
             {/* Stats */}
-            <div className="flex gap-4 mt-5">
+            <div className="flex gap-3 sm:gap-4 mt-5">
               {[["20+", "Years"], ["5", "Continents"], ["100K+", "Lives"]].map(([v, l]) => (
                 <div key={l} className="bg-white/4 border border-white/8 rounded-xl px-4 py-3 text-center">
                   <div className="text-amber-400 text-sm font-bold">{v}</div>
@@ -54,7 +55,7 @@ export function FounderSection() {
           {/* Bio */}
           <div>
             <div className="text-amber-400 text-xs font-bold tracking-[3.5px] uppercase mb-4">About The Ministry</div>
-            <h2 className="font-serif text-4xl sm:text-5xl font-bold text-white mb-5 leading-tight">A Ministry Born<br />from Grace</h2>
+            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-5 leading-tight">A Ministry Born<br />from Grace</h2>
             <div className="w-14 h-0.5 bg-gradient-to-r from-amber-500 to-yellow-300 mb-7 rounded-full" />
 
             <p className="text-white/65 text-base leading-relaxed mb-5 font-light">

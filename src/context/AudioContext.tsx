@@ -33,12 +33,16 @@ export function AudioProvider({ children }: { children: ReactNode }) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    if (audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.play().catch(e => console.error("Playback failed", e));
-      } else {
-        audioRef.current.pause();
-      }
+    const audio = audioRef.current;
+    if (!audio) return;
+    if (isPlaying) {
+      // Small delay avoids AbortError when src changes and play() races with pause()
+      const t = setTimeout(() => {
+        audio.play().catch(() => {/* interrupted by src change — safe to ignore */});
+      }, 50);
+      return () => clearTimeout(t);
+    } else {
+      audio.pause();
     }
   }, [isPlaying, currentTrack]);
 
@@ -91,7 +95,7 @@ export function AudioProvider({ children }: { children: ReactNode }) {
       {/* Hidden Audio Element */}
       <audio
         ref={audioRef}
-        src={currentTrack?.url || ""}
+        src={currentTrack?.url || undefined}
         onTimeUpdate={onTimeUpdate}
         onLoadedMetadata={onLoadedMetadata}
         onEnded={onEnded}

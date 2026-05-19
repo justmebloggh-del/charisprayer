@@ -1,5 +1,5 @@
-@import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
 
 :root {
   --gold: #C9A227;
@@ -149,4 +149,190 @@ body {
 /* Mobile nav */
 @media (max-width: 768px) {
   .mobile-hidden { display: none; }
+}
+
+/* ─── Tailwind v4 opacity-shorthand polyfills ───────────────────────────────
+   Tailwind v4 only generates opacity steps in multiples of 5 by default.
+   Non-standard values like /3 /4 /6 /7 /8 /12 /15 need explicit CSS.
+   We define them here so all components work without bracket notation.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+/* bg-white/N */
+.bg-white\/2  { background-color: rgba(255,255,255,0.02); }
+.bg-white\/3  { background-color: rgba(255,255,255,0.03); }
+.bg-white\/4  { background-color: rgba(255,255,255,0.04); }
+.bg-white\/5  { background-color: rgba(255,255,255,0.05); }
+.bg-white\/6  { background-color: rgba(255,255,255,0.06); }
+.bg-white\/7  { background-color: rgba(255,255,255,0.07); }
+.bg-white\/8  { background-color: rgba(255,255,255,0.08); }
+.bg-white\/12 { background-color: rgba(255,255,255,0.12); }
+.bg-white\/15 { background-color: rgba(255,255,255,0.15); }
+
+/* hover:bg-white/N */
+.hover\:bg-white\/3:hover  { background-color: rgba(255,255,255,0.03); }
+.hover\:bg-white\/4:hover  { background-color: rgba(255,255,255,0.04); }
+.hover\:bg-white\/5:hover  { background-color: rgba(255,255,255,0.05); }
+.hover\:bg-white\/6:hover  { background-color: rgba(255,255,255,0.06); }
+.hover\:bg-white\/8:hover  { background-color: rgba(255,255,255,0.08); }
+.hover\:bg-white\/12:hover { background-color: rgba(255,255,255,0.12); }
+.hover\:bg-white\/15:hover { background-color: rgba(255,255,255,0.15); }
+
+/* border-white/N */
+.border-white\/5  { border-color: rgba(255,255,255,0.05); }
+.border-white\/6  { border-color: rgba(255,255,255,0.06); }
+.border-white\/7  { border-color: rgba(255,255,255,0.07); }
+.border-white\/8  { border-color: rgba(255,255,255,0.08); }
+.border-white\/12 { border-color: rgba(255,255,255,0.12); }
+.border-white\/15 { border-color: rgba(255,255,255,0.15); }
+
+/* hover:border-white/N */
+.hover\:border-white\/12:hover { border-color: rgba(255,255,255,0.12); }
+.hover\:border-white\/20:hover { border-color: rgba(255,255,255,0.20); }
+.hover\:border-white\/25:hover { border-color: rgba(255,255,255,0.25); }
+
+/* text-white/N */
+.text-white\/25 { color: rgba(255,255,255,0.25); }
+.text-white\/30 { color: rgba(255,255,255,0.30); }
+.text-white\/35 { color: rgba(255,255,255,0.35); }
+.text-white\/40 { color: rgba(255,255,255,0.40); }
+.text-white\/45 { color: rgba(255,255,255,0.45); }
+.text-white\/55 { color: rgba(255,255,255,0.55); }
+.text-white\/60 { color: rgba(255,255,255,0.60); }
+.text-white\/65 { color: rgba(255,255,255,0.65); }
+.text-white\/70 { color: rgba(255,255,255,0.70); }
+
+/* hover:text-white/N */
+.hover\:text-white\/60:hover { color: rgba(255,255,255,0.60); }
+.hover\:text-white\/70:hover { color: rgba(255,255,255,0.70); }
+.hover\:text-white\/80:hover { color: rgba(255,255,255,0.80); }
+
+/* bg-amber-400/N */
+.bg-amber-400\/3  { background-color: rgba(251,191,36,0.03); }
+.bg-amber-400\/4  { background-color: rgba(251,191,36,0.04); }
+.bg-amber-400\/6  { background-color: rgba(251,191,36,0.06); }
+.bg-amber-400\/7  { background-color: rgba(251,191,36,0.07); }
+.bg-amber-400\/8  { background-color: rgba(251,191,36,0.08); }
+.bg-amber-400\/12 { background-color: rgba(251,191,36,0.12); }
+.bg-amber-400\/15 { background-color: rgba(251,191,36,0.15); }
+
+/* hover:bg-amber-400/N */
+.hover\:bg-amber-400\/3:hover  { background-color: rgba(251,191,36,0.03); }
+.hover\:bg-amber-400\/8:hover  { background-color: rgba(251,191,36,0.08); }
+.hover\:bg-amber-400\/10:hover { background-color: rgba(251,191,36,0.10); }
+.hover\:bg-amber-400\/12:hover { background-color: rgba(251,191,36,0.12); }
+.hover\:bg-amber-400\/15:hover { background-color: rgba(251,191,36,0.15); }
+
+/* border-amber-400/N */
+.border-amber-400\/4  { border-color: rgba(251,191,36,0.04); }
+.border-amber-400\/6  { border-color: rgba(251,191,36,0.06); }
+.border-amber-400\/7  { border-color: rgba(251,191,36,0.07); }
+.border-amber-400\/8  { border-color: rgba(251,191,36,0.08); }
+.border-amber-400\/12 { border-color: rgba(251,191,36,0.12); }
+.border-amber-400\/15 { border-color: rgba(251,191,36,0.15); }
+
+/* bg-red-400/N, bg-red-500/N */
+.bg-red-400\/8  { background-color: rgba(248,113,113,0.08); }
+.bg-red-500\/8  { background-color: rgba(239,68,68,0.08); }
+.bg-red-500\/12 { background-color: rgba(239,68,68,0.12); }
+.bg-red-500\/15 { background-color: rgba(239,68,68,0.15); }
+
+/* hover:bg-red-400/N */
+.hover\:bg-red-400\/8:hover  { background-color: rgba(248,113,113,0.08); }
+.hover\:bg-red-500\/8:hover  { background-color: rgba(239,68,68,0.08); }
+.hover\:bg-red-500\/12:hover { background-color: rgba(239,68,68,0.12); }
+.hover\:bg-red-500\/20:hover { background-color: rgba(239,68,68,0.20); }
+
+/* bg-emerald-500/N */
+.bg-emerald-500\/8  { background-color: rgba(16,185,129,0.08); }
+.bg-emerald-500\/12 { background-color: rgba(16,185,129,0.12); }
+.bg-emerald-500\/15 { background-color: rgba(16,185,129,0.15); }
+.hover\:bg-emerald-500\/8:hover  { background-color: rgba(16,185,129,0.08); }
+.hover\:bg-emerald-500\/12:hover { background-color: rgba(16,185,129,0.12); }
+.hover\:bg-emerald-500\/20:hover { background-color: rgba(16,185,129,0.20); }
+
+/* bg-blue-500/N */
+.bg-blue-500\/8  { background-color: rgba(59,130,246,0.08); }
+.bg-blue-500\/15 { background-color: rgba(59,130,246,0.15); }
+
+/* opacity-[0.03] shorthand */
+.opacity-\[0\.03\] { opacity: 0.03; }
+
+/* focus:border-amber-400/N */
+.focus\:border-amber-400\/60:focus { border-color: rgba(251,191,36,0.60); }
+
+/* shadow-amber-400/N */
+.shadow-amber-400\/15 { --tw-shadow-color: rgba(251,191,36,0.15); }
+.shadow-amber-400\/30 { --tw-shadow-color: rgba(251,191,36,0.30); }
+
+/* bg-[#25D366]/N */
+.bg-\[\#25D366\]\/8  { background-color: rgba(37,211,102,0.08); }
+.bg-\[\#25D366\]\/10 { background-color: rgba(37,211,102,0.10); }
+.bg-\[\#25D366\]\/12 { background-color: rgba(37,211,102,0.12); }
+.bg-\[\#25D366\]\/15 { background-color: rgba(37,211,102,0.15); }
+.hover\:bg-\[\#25D366\]\/12:hover { background-color: rgba(37,211,102,0.12); }
+.hover\:bg-\[\#25D366\]\/15:hover { background-color: rgba(37,211,102,0.15); }
+.border-\[\#25D366\]\/25 { border-color: rgba(37,211,102,0.25); }
+.border-\[\#25D366\]\/30 { border-color: rgba(37,211,102,0.30); }
+
+/* bg-white/[0.08] etc — bracket notation aliases */
+.bg-white\/\[0\.08\]  { background-color: rgba(255,255,255,0.08); }
+.bg-white\/\[0\.04\]  { background-color: rgba(255,255,255,0.04); }
+.bg-white\/\[0\.92\]  { background-color: rgba(255,255,255,0.92); }
+
+/* bg-[#0A1628]/N */
+.bg-\[\#0A1628\]\/70 { background-color: rgba(10,22,40,0.70); }
+.bg-\[\#0A1628\]\/80 { background-color: rgba(10,22,40,0.80); }
+
+/* border-gray-100/N */
+.border-gray-100\/80 { border-color: rgba(243,244,246,0.80); }
+
+/* Additional missing classes */
+.bg-white\/95 { background-color: rgba(255,255,255,0.95); }
+.text-white\/75 { color: rgba(255,255,255,0.75); }
+.text-white\/50 { color: rgba(255,255,255,0.50); }
+
+/* bg-amber-50/N */
+.bg-amber-50\/60 { background-color: rgba(255,251,235,0.60); }
+
+/* Section entrance animation */
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in-up { animation: fade-in-up 0.7s ease forwards; }
+
+/* Premium section divider */
+.section-divider {
+  width: 60px; height: 3px; border-radius: 2px;
+  background: linear-gradient(90deg, #C9A227, #F5D785);
+  margin: 0 auto 2rem;
+}
+
+/* Eyebrow label */
+.eyebrow {
+  font-size: 0.65rem; font-weight: 700; letter-spacing: 0.25em;
+  text-transform: uppercase; color: #C9A227;
+}
+
+/* Premium card */
+.card-premium {
+  background: #fff; border-radius: 20px;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.04), 0 10px 30px -5px rgba(0,0,0,0.08);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+.card-premium:hover {
+  box-shadow: 0 20px 60px -10px rgba(0,0,0,0.14);
+  transform: translateY(-3px);
+}
+
+/* Mobile menu slide in */
+@keyframes slide-in-right {
+  from { transform: translateX(100%); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+.animate-slide-in-right { animation: slide-in-right 0.3s ease forwards; }
+
+/* Gradient radial bg */
+.bg-gradient-radial {
+  background: radial-gradient(ellipse at center, var(--tw-gradient-from), var(--tw-gradient-to));
 }

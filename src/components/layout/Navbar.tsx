@@ -59,7 +59,7 @@ export function Navbar() {
             : "bg-white/95 backdrop-blur-xl border-b border-gray-100/80 shadow-[0_1px_20px_rgba(0,0,0,0.06)]"
         )}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center gap-6">
+        <div className="page-container h-full flex items-center gap-6">
           {/* Logo */}
           <Link href="/" className="flex-shrink-0" onClick={closeMobile} aria-label="Charis Prayer Home">
             <CharisLogo

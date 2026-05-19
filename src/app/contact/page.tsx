@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { PageHero } from "@/components/layout/PageHero";
 import { SOCIAL_LINKS, WHATSAPP_CHANNEL } from "@/lib/constants";
 import { Mail, Phone, Clock, MapPin } from "lucide-react";
 
@@ -22,32 +23,20 @@ export default function ContactPage() {
     <>
       <Navbar />
       <main>
-        {/* Hero */}
-        <div className="relative bg-gradient-to-br from-[#04090f] via-[#0A1628] to-[#0d1e3a] pt-36 pb-20 sm:pt-44 sm:pb-28 overflow-hidden">
-          <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse at 50% 100%, rgba(201,162,39,0.09) 0%, transparent 55%)" }} />
-          <div className="absolute inset-0 opacity-[0.025]" style={{ backgroundImage: "radial-gradient(circle, #C9A227 1px, transparent 1px)", backgroundSize: "28px 28px" }} />
-          <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-amber-400/25 to-transparent" />
-
-          <div className="relative z-10 text-center max-w-3xl mx-auto px-4">
-            <p className="eyebrow mb-4">Get In Touch</p>
-            <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-5 leading-tight">
-              Contact Us
-            </h1>
-            <div className="section-divider" />
-            <p className="text-white/50 max-w-md mx-auto font-light leading-relaxed mt-5 text-base sm:text-lg">
-              We'd love to hear from you. Reach out for prayer, partnership, or ministry enquiries.
-            </p>
-          </div>
-        </div>
+        <PageHero
+          eyebrow="Get In Touch"
+          title="Contact Us"
+          description="We'd love to hear from you. Reach out for prayer, partnership, or ministry enquiries."
+        />
 
         {/* Contact content */}
-        <section className="py-20 sm:py-28 bg-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section className="section-py bg-white">
+          <div className="page-container">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-20">
 
               {/* Info column */}
               <div>
-                <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#0A1628] mb-8">Ministry Information</h2>
+                <h2 className="text-subsection font-serif font-bold text-[#0A1628] mb-8">Ministry Information</h2>
 
                 <div className="space-y-4 mb-10">
                   {CONTACT_INFO.map(item => (
@@ -103,7 +92,7 @@ export default function ContactPage() {
 
               {/* Form column */}
               <div>
-                <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#0A1628] mb-8">Send a Message</h2>
+                <h2 className="text-subsection font-serif font-bold text-[#0A1628] mb-8">Send a Message</h2>
 
                 {!sent ? (
                   <div className="space-y-4">
@@ -145,7 +134,7 @@ export default function ContactPage() {
                     </div>
                     <button
                       onClick={() => form.name && form.message && setSent(true)}
-                      className="w-full bg-gradient-to-r from-[#0A1628] to-[#1a2e50] text-amber-400 font-bold py-4 rounded-2xl hover:opacity-90 transition-opacity text-sm tracking-wide"
+                      className="w-full bg-gradient-to-r from-[#0A1628] to-[#1a2e50] text-amber-400 font-bold py-4 rounded-2xl hover:opacity-90 transition-opacity text-sm tracking-wide shadow-lg shadow-navy-900/20"
                     >
                       Send Message →
                     </button>
@@ -156,8 +145,8 @@ export default function ContactPage() {
                       <span className="text-4xl">✉️</span>
                     </div>
                     <h3 className="font-serif text-2xl font-bold text-[#0A1628] mb-3">Message Sent!</h3>
-                    <p className="text-gray-500 mb-7 font-light text-sm leading-relaxed max-w-xs mx-auto">
-                      Thank you for reaching out. We'll get back to you within 24 hours.
+                    <p className="text-gray-500 mb-7 font-light text-sm leading-[1.75] max-w-xs mx-auto">
+                      Thank you for reaching out. We&apos;ll get back to you within 24 hours.
                     </p>
                     <button
                       onClick={() => { setSent(false); setForm({ name: "", email: "", subject: "", message: "" }); }}

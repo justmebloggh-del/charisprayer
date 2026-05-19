@@ -1,5 +1,6 @@
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { PageHero } from "@/components/layout/PageHero";
 import { FounderSection } from "@/components/home/FounderSection";
 import type { Metadata } from "next";
 
@@ -38,55 +39,29 @@ export default function AboutPage() {
     <>
       <Navbar />
       <main>
-        {/* Hero */}
-        <div className="relative bg-gradient-to-br from-[#04090f] via-[#0A1628] to-[#0d1e3a] pt-36 pb-20 sm:pt-44 sm:pb-28 overflow-hidden">
-          <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse at 50% 100%, rgba(201,162,39,0.09) 0%, transparent 55%)" }} />
-          <div className="absolute inset-0 opacity-[0.025]" style={{ backgroundImage: "radial-gradient(circle, #C9A227 1px, transparent 1px)", backgroundSize: "28px 28px" }} />
-          <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-amber-400/25 to-transparent" />
+        <PageHero
+          eyebrow="Our Story"
+          title={<>A Ministry Born<br /><span className="gold-shimmer">from Grace</span></>}
+          description="Charis Prayer is a global digital prayer ministry dedicated to igniting prayer movements and transforming lives through daily encounters with God's presence."
+          stats={[["20+", "Years of Ministry"], ["85+", "Nations Reached"], ["100K+", "Lives Touched"]]}
+        />
 
-          <div className="relative z-10 text-center max-w-3xl mx-auto px-4">
-            <p className="eyebrow mb-4">Our Story</p>
-            <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-5 leading-tight">
-              A Ministry Born<br /><span className="gold-shimmer">from Grace</span>
-            </h1>
-            <div className="section-divider" />
-            <p className="text-white/50 max-w-md mx-auto font-light leading-relaxed mt-5 text-base sm:text-lg">
-              Charis Prayer is a global digital prayer ministry dedicated to igniting prayer movements and transforming lives through daily encounters with God&apos;s presence.
-            </p>
-
-            {/* Stats */}
-            <div className="flex flex-wrap justify-center gap-6 sm:gap-10 mt-10">
-              {[
-                ["20+", "Years of Ministry"],
-                ["85+", "Nations Reached"],
-                ["100K+", "Lives Touched"],
-              ].map(([v, l]) => (
-                <div key={l} className="text-center">
-                  <div className="font-serif text-2xl sm:text-3xl font-bold text-amber-400">{v}</div>
-                  <div className="text-white/40 text-xs uppercase tracking-wider mt-1">{l}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Founder section */}
         <FounderSection />
 
         {/* Core Values */}
-        <section className="py-20 sm:py-28 bg-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-14">
+        <section className="section-py bg-white">
+          <div className="page-container">
+            <div className="text-center mb-14 sm:mb-16">
               <p className="eyebrow mb-3">What We Believe</p>
-              <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-[#0A1628] mb-5">Our Core Values</h2>
+              <h2 className="text-section font-serif font-bold text-[#0A1628] mb-5">Our Core Values</h2>
               <div className="section-divider" />
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {VALUES.map(v => (
-                <div key={v.title} className="card-premium p-7">
+                <div key={v.title} className="card-premium p-7 hover:border-amber-200 hover:shadow-md transition-all duration-300">
                   <div className="text-4xl mb-4">{v.icon}</div>
                   <h3 className="font-serif text-xl font-bold text-[#0A1628] mb-3">{v.title}</h3>
-                  <p className="text-gray-500 text-sm leading-relaxed font-light">{v.desc}</p>
+                  <p className="text-gray-500 text-sm leading-[1.75] font-light">{v.desc}</p>
                 </div>
               ))}
             </div>
@@ -94,25 +69,25 @@ export default function AboutPage() {
         </section>
 
         {/* Timeline */}
-        <section className="py-20 sm:py-28 bg-gradient-to-br from-[#04090f] via-[#0A1628] to-[#0d1e3a] relative overflow-hidden">
+        <section className="section-py bg-gradient-to-br from-[#04090f] via-[#0A1628] to-[#0d1e3a] relative overflow-hidden">
           <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse at 50% 50%, rgba(201,162,39,0.06) 0%, transparent 60%)" }} />
-          <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-14">
+          <div className="relative z-10 max-w-4xl mx-auto page-container">
+            <div className="text-center mb-14 sm:mb-16">
               <p className="eyebrow mb-3">Ministry Journey</p>
-              <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-5">Our History</h2>
+              <h2 className="text-section font-serif font-bold text-white mb-5">Our History</h2>
               <div className="section-divider" />
             </div>
             <div className="relative">
               <div className="absolute left-6 top-0 bottom-0 w-px bg-gradient-to-b from-amber-400/60 via-amber-400/30 to-transparent" />
               <div className="space-y-8 sm:space-y-10">
                 {TIMELINE.map((t, i) => (
-                  <div key={i} className="flex gap-4 sm:gap-8 pl-12 sm:pl-16 relative">
+                  <div key={i} className="flex gap-4 sm:gap-8 pl-14 sm:pl-16 relative">
                     <div className="absolute left-0 top-0 w-12 h-12 rounded-full bg-gradient-to-br from-amber-500 to-yellow-400 flex items-center justify-center flex-shrink-0 shadow-lg shadow-amber-400/20">
                       <span className="text-[#0A1628] font-black text-[10px] tracking-tight">{t.year}</span>
                     </div>
                     <div className="flex-1 pb-2">
                       <h3 className="font-serif text-xl font-bold text-white mb-2">{t.title}</h3>
-                      <p className="text-white/50 text-sm leading-relaxed font-light">{t.desc}</p>
+                      <p className="text-white/50 text-sm leading-[1.75] font-light">{t.desc}</p>
                     </div>
                   </div>
                 ))}
@@ -122,39 +97,39 @@ export default function AboutPage() {
         </section>
 
         {/* Leadership */}
-        <section className="py-20 sm:py-28 bg-[#fafaf8]">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-14">
+        <section className="section-py bg-[#fafaf8]">
+          <div className="page-container">
+            <div className="text-center mb-14 sm:mb-16">
               <p className="eyebrow mb-3">The Team</p>
-              <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-[#0A1628] mb-5">Ministry Leadership</h2>
+              <h2 className="text-section font-serif font-bold text-[#0A1628] mb-5">Ministry Leadership</h2>
               <div className="section-divider" />
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {LEADERSHIP.map(l => (
-                <div key={l.name} className="card-premium p-6 text-center">
+                <div key={l.name} className="card-premium p-6 text-center hover:border-amber-200 hover:shadow-md transition-all duration-300">
                   <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#0A1628] to-[#1a2e50] flex items-center justify-center text-2xl mx-auto mb-4">🙏</div>
                   <h3 className="font-serif font-bold text-[#0A1628] text-base mb-1 leading-tight">{l.name}</h3>
-                  <div className="inline-block bg-amber-50 text-amber-700 text-[10px] font-bold tracking-wider uppercase px-3 py-1.5 rounded-lg mb-3">{l.role}</div>
-                  <p className="text-gray-500 text-xs leading-relaxed font-light">{l.bio}</p>
+                  <div className="inline-block bg-amber-50 text-amber-700 text-[10px] font-bold tracking-wider uppercase px-3 py-1.5 rounded-lg mb-3 border border-amber-100">{l.role}</div>
+                  <p className="text-gray-500 text-xs leading-[1.7] font-light">{l.bio}</p>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* CTA */}
-        <section className="py-20 sm:py-24 bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-500 text-center">
-          <div className="max-w-2xl mx-auto px-4">
-            <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-bold text-[#0A1628] mb-4">Join the Prayer Movement</h2>
-            <p className="text-[#0A1628]/65 mb-8 font-light leading-relaxed text-sm sm:text-base">
+        {/* CTA Banner */}
+        <section className="section-py bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-500 text-center">
+          <div className="max-w-2xl mx-auto px-5 sm:px-6">
+            <h2 className="text-subsection font-serif font-bold text-[#0A1628] mb-4">Join the Prayer Movement</h2>
+            <p className="text-[#0A1628]/65 mb-8 font-light leading-[1.75] text-sm sm:text-base">
               Every morning at 5:00 AM, thousands gather from across the world to encounter God&apos;s presence. Join us — it will change your life.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <a href="/prayers" className="inline-flex items-center justify-center gap-2 bg-[#0A1628] text-amber-400 font-bold px-7 py-3.5 rounded-2xl text-sm hover:bg-[#1a2e50] transition-colors">
-                🎧 Stream Daily Prayers
+                Stream Daily Prayers
               </a>
               <a href="/prayer-request" className="inline-flex items-center justify-center gap-2 bg-white/80 text-[#0A1628] font-bold px-7 py-3.5 rounded-2xl text-sm hover:bg-white transition-colors">
-                🙏 Submit Prayer Request
+                Submit Prayer Request
               </a>
             </div>
           </div>

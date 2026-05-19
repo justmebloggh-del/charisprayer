@@ -99,7 +99,7 @@ export function Footer() {
     <footer className="bg-[#04090f] text-white">
       {/* ── Newsletter Banner ── */}
       <div className="border-b border-white/5">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-14">
+        <div className="page-container py-12 sm:py-14">
           <div className="bg-white/3 border border-amber-500/20 rounded-2xl px-8 sm:px-12 py-10 flex flex-col sm:flex-row items-center justify-between gap-6">
             <div>
               <h3 className="font-serif text-2xl font-bold text-white mb-1.5 leading-tight">
@@ -124,7 +124,7 @@ export function Footer() {
       </div>
 
       {/* ── Main footer grid ── */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 pb-8">
+      <div className="page-container pt-14 pb-8">
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-10 mb-14">
           {/* Brand column */}
           <div className="col-span-2 lg:col-span-2">

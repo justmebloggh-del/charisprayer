@@ -1,5 +1,6 @@
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { PageHero } from "@/components/layout/PageHero";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -30,32 +31,20 @@ export default function BlogPage() {
     <>
       <Navbar />
       <main>
-        {/* Hero */}
-        <div className="relative bg-gradient-to-br from-[#04090f] via-[#0A1628] to-[#0d1e3a] pt-36 pb-20 sm:pt-44 sm:pb-28 overflow-hidden">
-          <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse at 50% 100%, rgba(201,162,39,0.09) 0%, transparent 55%)" }} />
-          <div className="absolute inset-0 opacity-[0.025]" style={{ backgroundImage: "radial-gradient(circle, #C9A227 1px, transparent 1px)", backgroundSize: "28px 28px" }} />
-          <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-amber-400/25 to-transparent" />
-
-          <div className="relative z-10 text-center max-w-3xl mx-auto px-4">
-            <p className="eyebrow mb-4">Ministry Updates</p>
-            <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-5 leading-tight">
-              Blog &amp; News
-            </h1>
-            <div className="section-divider" />
-            <p className="text-white/50 max-w-md mx-auto font-light leading-relaxed mt-5 text-base sm:text-lg">
-              Teachings, devotionals, and ministry updates from Charis Prayer.
-            </p>
-          </div>
-        </div>
+        <PageHero
+          eyebrow="Ministry Updates"
+          title="Blog &amp; News"
+          description="Teachings, devotionals, and ministry updates from Charis Prayer."
+        />
 
         {/* Blog grid */}
-        <section className="py-20 sm:py-28 bg-[#fafaf8]">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section className="section-py bg-[#fafaf8]">
+          <div className="page-container">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
               {POSTS.map(p => (
-                <article key={p.id} className="card-premium overflow-hidden cursor-pointer group">
+                <article key={p.id} className="card-premium overflow-hidden cursor-pointer group flex flex-col">
                   {/* Cover */}
-                  <div className={`h-44 bg-gradient-to-br ${p.color} bg-[#0d1a30] flex items-center justify-center relative overflow-hidden`}>
+                  <div className={`h-44 bg-gradient-to-br ${p.color} bg-[#0d1a30] flex items-center justify-center relative overflow-hidden flex-shrink-0`}>
                     <span className="text-6xl select-none group-hover:scale-110 transition-transform duration-500">{p.emoji}</span>
                     <div className="absolute top-3 left-3">
                       <span className={`inline-block text-[10px] font-bold tracking-widest uppercase px-2.5 py-1 rounded-lg border ${catStyle[p.category] ?? catStyle.Prayer}`}>
@@ -68,12 +57,12 @@ export default function BlogPage() {
                   </div>
 
                   {/* Body */}
-                  <div className="p-6">
+                  <div className="p-6 flex flex-col flex-1">
                     <h2 className="font-serif text-lg font-bold text-[#0A1628] mb-2 leading-snug group-hover:text-amber-700 transition-colors">
                       {p.title}
                     </h2>
-                    <p className="text-gray-500 text-sm leading-relaxed mb-5 font-light line-clamp-2">{p.excerpt}</p>
-                    <div className="flex justify-between items-center text-xs text-gray-400 border-t border-gray-100 pt-4">
+                    <p className="text-gray-500 text-sm leading-[1.75] mb-5 font-light line-clamp-2 flex-1">{p.excerpt}</p>
+                    <div className="flex justify-between items-center text-xs text-gray-400 border-t border-gray-100 pt-4 mt-auto">
                       <span className="font-medium text-gray-500 truncate max-w-[140px]">{p.author}</span>
                       <span>{p.date}</span>
                     </div>

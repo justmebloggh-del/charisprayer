@@ -18,7 +18,7 @@ const FALLBACK: Omit<ScheduleItem, 'id' | 'updated_at'>[] = [
 ]
 
 function mergeWithFallback(from_db: ScheduleItem[]): ScheduleRow[] {
-  return FALLBACK.map((fb, i) => {
+  return FALLBACK.map((fb) => {
     const db = from_db.find(d => d.day === fb.day)
     return db
       ? { ...db }
@@ -229,7 +229,7 @@ export default function ScheduleManager({ initial }: Props) {
       </div>
 
       <p style={{ fontSize: '0.75rem', color: 'var(--text-3)', marginTop: '1.25rem' }}>
-        Times are displayed in WAT (West Africa Time). You can type any format, e.g. &quot;5:00 AM&quot; or &quot;05:00&quot;.
+        Times are displayed in BST (GMT+1). You can type any format, e.g. &quot;5:00 AM&quot; or &quot;05:00&quot;.
       </p>
     </div>
   )

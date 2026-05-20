@@ -86,7 +86,7 @@ export default async function ScheduleSection() {
                   padding: '0.25rem 0.625rem', borderRadius: 'var(--r-full)',
                   border: `1px solid ${isToday ? 'var(--border-gold)' : 'var(--border)'}`,
                 }}>
-                  {s.time_start} – {s.time_end} WAT
+                  {s.time_start} – {s.time_end} BST
                 </div>
 
                 {isToday && (

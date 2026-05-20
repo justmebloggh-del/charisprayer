@@ -7,30 +7,16 @@ export interface UploadOptions {
 }
 
 /**
- * Upload a file to Cloudinary using an unsigned upload preset.
- * Works in the browser, shows real progress, no per-file size limit on free tier.
- *
- * Required env vars (add to .env.local):
- *   NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=your_cloud_name
- *   NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=your_unsigned_preset
+ * Upload a file via the /api/upload proxy (server → Cloudinary).
+ * Routing through our own API avoids all browser CORS/signed-preset issues.
+ * Progress reflects the client→server leg, which is the slow part.
  */
 export function uploadFile(file: File, opts: UploadOptions = {}): Promise<string> {
   return new Promise((resolve, reject) => {
-    const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
-    const preset    = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET
-
-    if (!cloudName || !preset) {
-      reject(new Error('Cloudinary not configured. Add NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME and NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET to .env.local'))
-      return
-    }
-
-    const resourceType = opts.resourceType ?? 'auto'
-    const url = `https://api.cloudinary.com/v1_1/${cloudName}/${resourceType}/upload`
-
     const formData = new FormData()
     formData.append('file', file)
-    formData.append('upload_preset', preset)
-    if (opts.folder) formData.append('folder', opts.folder)
+    if (opts.folder)       formData.append('folder', opts.folder)
+    if (opts.resourceType) formData.append('resourceType', opts.resourceType)
 
     const xhr = new XMLHttpRequest()
 
@@ -42,22 +28,26 @@ export function uploadFile(file: File, opts: UploadOptions = {}): Promise<string
 
     xhr.addEventListener('load', () => {
       if (xhr.status >= 200 && xhr.status < 300) {
-        const res = JSON.parse(xhr.responseText)
-        resolve(res.secure_url as string)
+        try {
+          const res = JSON.parse(xhr.responseText)
+          resolve(res.url as string)
+        } catch {
+          reject(new Error('Invalid response from upload server'))
+        }
       } else {
         try {
           const err = JSON.parse(xhr.responseText)
-          reject(new Error(err?.error?.message ?? `Upload failed (${xhr.status})`))
+          reject(new Error(err?.error ?? `Upload failed (${xhr.status})`))
         } catch {
           reject(new Error(`Upload failed (${xhr.status})`))
         }
       }
     })
 
-    xhr.addEventListener('error', () => reject(new Error('Network error during upload')))
-    xhr.addEventListener('abort', () => reject(new Error('Upload cancelled')))
+    xhr.addEventListener('error', () => reject(new Error('Network error — check your connection and try again')))
+    xhr.addEventListener('abort',  () => reject(new Error('Upload cancelled')))
 
-    xhr.open('POST', url)
+    xhr.open('POST', '/api/upload')
     xhr.send(formData)
   })
 }

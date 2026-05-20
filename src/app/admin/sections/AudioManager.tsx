@@ -85,7 +85,7 @@ export default function AudioManager({ initial }: { initial: AudioTrack[] }) {
     if (uploadMode === 'file' && pendingFile) {
       setUploading(true); setUploadProgress(0)
       try {
-        fileUrl = await uploadFile(pendingFile, { folder: 'charisprayer/tracks', onProgress: setUploadProgress })
+        fileUrl = await uploadFile(pendingFile, { folder: 'charisprayer/tracks', resourceType: 'video', onProgress: setUploadProgress })
       } catch (err: unknown) {
         setError((err as Error).message ?? 'File upload failed')
         setSaving(false); setUploading(false); return

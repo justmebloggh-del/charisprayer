@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import Image from 'next/image'
 import { ArrowRight, Play, Radio } from 'lucide-react'
 import YouTubePlayer from '@/components/ui/YouTubePlayer'
 import type { LivestreamSettings } from '@/lib/types'
@@ -48,14 +47,15 @@ function LivePlaceholder({ channelId, thumbnailUrl }: { channelId?: string | nul
   return (
     <div style={{
       position: 'relative',
-      background: 'linear-gradient(135deg, #18181F 0%, #09090B 100%)',
+      backgroundImage: `url('${resolvedThumbnail}')`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
       display: 'flex', flexDirection: 'column',
       alignItems: 'center', justifyContent: 'center',
       gap: '1.25rem', padding: '2.5rem 2rem', textAlign: 'center',
       overflow: 'hidden',
     }}>
-      {/* Background thumbnail */}
-      <Image src={resolvedThumbnail} alt="" fill style={{ objectFit: 'cover', objectPosition: 'center' }} priority />
+      {/* Dark overlay */}
       <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.55) 100%)' }} />
       {/* All content above the overlay */}
       <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.25rem', width: '100%' }}>

@@ -10,7 +10,7 @@ import type { Video as VideoType } from '@/lib/types'
 const BLANK = { title: '', youtube_url: '', thumbnail_url: '', is_live: false, featured: false, archived: false, scheduled_at: '' }
 
 function ytThumb(url: string) {
-  const m = url.match(/(?:v=|youtu\.be\/)([A-Za-z0-9_-]{11})/)
+  const m = url.match(/(?:[?&]v=|youtu\.be\/|\/embed\/|\/live\/|\/shorts\/)([A-Za-z0-9_-]{11})/)
   return m ? `https://img.youtube.com/vi/${m[1]}/mqdefault.jpg` : ''
 }
 

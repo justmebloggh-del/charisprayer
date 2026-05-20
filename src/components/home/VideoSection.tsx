@@ -12,7 +12,7 @@ const FALLBACK: Video[] = [
 ]
 
 function getYouTubeId(url: string) {
-  const m = url.match(/(?:v=|youtu\.be\/)([A-Za-z0-9_-]{11})/)
+  const m = url.match(/(?:[?&]v=|youtu\.be\/|\/embed\/|\/live\/|\/shorts\/)([A-Za-z0-9_-]{11})/)
   return m?.[1] ?? ''
 }
 

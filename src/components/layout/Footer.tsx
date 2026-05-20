@@ -39,7 +39,7 @@ export default function Footer() {
             </Link>
 
             <p style={{ fontSize: '0.875rem', color: 'var(--text-2)', lineHeight: 1.75, maxWidth: '280px' }}>
-              A global prayer ministry led by Rev. Emmanuel Oduro Cosby, dedicated to intercession, worship, and faith.
+              A global prayer ministry led by Rev. Emmanuel Cosby Oduro, dedicated to intercession, worship, and faith.
             </p>
 
             <blockquote style={{ borderLeft: '2px solid var(--gold)', paddingLeft: '0.875rem', fontStyle: 'italic', fontSize: '0.8125rem', color: 'var(--text-3)', lineHeight: 1.65 }}>
@@ -130,7 +130,7 @@ export default function Footer() {
             © {new Date().getFullYear()} Charis Prayer Ministry. All rights reserved.
           </p>
           <p style={{ fontSize: '0.75rem', color: 'var(--text-3)' }}>
-            Led by Rev. Emmanuel Oduro Cosby
+            Led by Rev. Emmanuel Cosby Oduro
           </p>
         </div>
       </div>

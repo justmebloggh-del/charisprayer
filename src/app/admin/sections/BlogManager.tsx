@@ -6,7 +6,7 @@ import { formatDate } from '@/lib/utils'
 import { Plus, Pencil, Trash2, Eye, EyeOff, X, Loader2, BookOpen } from 'lucide-react'
 import type { BlogPost, BlogStatus } from '@/lib/types'
 
-const BLANK = { title: '', excerpt: '', content: '', category: '', author: 'Rev. Emmanuel Oduro Cosby', cover_url: '', status: 'draft' as BlogStatus }
+const BLANK = { title: '', excerpt: '', content: '', category: '', author: 'Rev. Emmanuel Cosby Oduro', cover_url: '', status: 'draft' as BlogStatus }
 
 export default function BlogManager({ initial }: { initial: BlogPost[] }) {
   const [posts, setPosts] = useState(initial)

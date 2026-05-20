@@ -22,7 +22,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: { default: 'Charis Prayer', template: '%s | Charis Prayer' },
-  description: 'Where Grace Meets Prayer — A global prayer ministry led by Rev. Emmanuel Oduro Cosby.',
+  description: 'Where Grace Meets Prayer — A global prayer ministry led by Rev. Emmanuel Cosby Oduro.',
   keywords: ['prayer', 'ministry', 'church', 'devotional', 'intercession', 'worship', 'livestream'],
   openGraph: {
     type: 'website',

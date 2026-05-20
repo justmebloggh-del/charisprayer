@@ -26,7 +26,7 @@ export default function LoginPage() {
         </blockquote>
         <div style={{ width: '40px', height: '1px', background: 'var(--border-gold)' }} />
         <p style={{ fontSize: '0.75rem', color: 'var(--text-3)', textAlign: 'center' }}>
-          Rev. Emmanuel Oduro Cosby
+          Rev. Emmanuel Cosby Oduro
         </p>
       </div>
 

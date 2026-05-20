@@ -22,8 +22,10 @@ function isDirectFile(url: string) {
 
 export default function YouTubePlayer({ url, title = 'Video', thumbnail, rounded = true }: Props) {
   const [playing, setPlaying] = useState(false)
+  const [thumbFailed, setThumbFailed] = useState(false)
   const ytId = getYouTubeId(url)
-  const thumb = thumbnail || (ytId ? `https://img.youtube.com/vi/${ytId}/maxresdefault.jpg` : '')
+  const ytFallback = ytId ? `https://img.youtube.com/vi/${ytId}/maxresdefault.jpg` : ''
+  const thumb = (!thumbFailed && thumbnail) ? thumbnail : ytFallback
   const embedSrc = ytId
     ? `https://www.youtube.com/embed/${ytId}?autoplay=1&rel=0&modestbranding=1`
     : url.includes('channel=') ? `${url}&autoplay=1&mute=0` : url
@@ -63,6 +65,7 @@ export default function YouTubePlayer({ url, title = 'Video', thumbnail, rounded
               src={thumb}
               alt={title}
               loading="lazy"
+              onError={() => setThumbFailed(true)}
               style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
             />
           )}

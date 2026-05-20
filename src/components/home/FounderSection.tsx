@@ -39,7 +39,7 @@ export default function FounderSection() {
             }}>
               <Image
                 src="/rev-emmanuel.jpg"
-                alt="Rev. Emmanuel Oduro Cosby"
+                alt="Rev. Emmanuel Cosby Oduro"
                 fill
                 style={{ objectFit: 'cover', objectPosition: 'top' }}
                 sizes="280px"
@@ -53,12 +53,12 @@ export default function FounderSection() {
 
             <div>
               <h2 className="t-h1 font-display" style={{ marginBottom: '0.25rem' }}>Rev. Emmanuel</h2>
-              <h2 className="t-h1 font-display" style={{ color: 'var(--gold-light)' }}>Oduro Cosby</h2>
+              <h2 className="t-h1 font-display" style={{ color: 'var(--gold-light)' }}>Cosby Oduro</h2>
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               <p className="t-body">
-                Rev. Emmanuel Oduro Cosby is a man of God called to the ministry of intercession and
+                Rev. Emmanuel Cosby Oduro is a man of God called to the ministry of intercession and
                 prayer. With a burning passion for souls and a deep reverence for the Word of God,
                 he has led thousands into powerful encounters with the living God.
               </p>

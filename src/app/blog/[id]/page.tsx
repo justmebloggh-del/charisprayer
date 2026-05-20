@@ -27,7 +27,7 @@ const FALLBACK: BlogPost[] = [
 <h2>The Promise of the Persistent</h2>
 <p>James 5:16 declares that the effectual, fervent prayer of a righteous man avails much. This is your inheritance. Do not faint. Do not give up. Keep knocking, keep seeking, keep asking — for the God who called you to pray is faithful to answer.</p>`,
     category: 'Prayer',
-    author: 'Rev. Emmanuel Oduro Cosby',
+    author: 'Rev. Emmanuel Cosby Oduro',
     status: 'published',
     views: 1840,
     created_at: new Date().toISOString(),
@@ -48,7 +48,7 @@ const FALLBACK: BlogPost[] = [
 <h2>Your Mountain Must Move</h2>
 <p>Whatever mountain stands before you today — sickness, debt, broken relationships, unanswered prayers — it is subject to your faith-filled word. You are not speaking to the mountain because you have power. You are speaking because the God who spoke worlds into existence lives in you, and His authority backs every word you release in faith. Speak to your mountain. It must move.</p>`,
     category: 'Faith',
-    author: 'Rev. Emmanuel Oduro Cosby',
+    author: 'Rev. Emmanuel Cosby Oduro',
     status: 'published',
     views: 2200,
     created_at: new Date(Date.now() - 86400000).toISOString(),
@@ -70,7 +70,7 @@ const FALLBACK: BlogPost[] = [
 <h2>Your Healing Belongs to You</h2>
 <p>Come to the table. The bread is set. Healing belongs to you as a child of God. Do not let symptoms or circumstances steal what Christ has already paid for. Receive it by faith, walk in it by the Word, and give God the glory for every victory.</p>`,
     category: 'Healing',
-    author: 'Rev. Emmanuel Oduro Cosby',
+    author: 'Rev. Emmanuel Cosby Oduro',
     status: 'published',
     views: 1560,
     created_at: new Date(Date.now() - 172800000).toISOString(),
@@ -94,7 +94,7 @@ const FALLBACK: BlogPost[] = [
 <h2>Your Place at the Wall</h2>
 <p>God is still looking for intercessors. Someone in your family, your workplace, your neighbourhood needs you to stand in the gap for them. Take your place at the wall. Heaven is watching, and God is responding to every prayer lifted in faith.</p>`,
     category: 'Intercession',
-    author: 'Rev. Emmanuel Oduro Cosby',
+    author: 'Rev. Emmanuel Cosby Oduro',
     status: 'published',
     views: 1020,
     created_at: new Date(Date.now() - 259200000).toISOString(),
@@ -116,7 +116,7 @@ const FALLBACK: BlogPost[] = [
 <h2>The Breakthrough Is Coming</h2>
 <p>Weeping may endure for a night, but joy comes in the morning (Psalm 30:5). The silence always breaks. It is not the end of the story — it is part of it. Hold on. Your morning is coming, and when it does, the silence will make the sound of His voice even sweeter.</p>`,
     category: 'Faith',
-    author: 'Rev. Emmanuel Oduro Cosby',
+    author: 'Rev. Emmanuel Cosby Oduro',
     status: 'published',
     views: 3100,
     created_at: new Date(Date.now() - 345600000).toISOString(),
@@ -138,7 +138,7 @@ const FALLBACK: BlogPost[] = [
 <h2>Your Story Is Not Over</h2>
 <p>No matter what chapter you are closing, God has more pages left to write. He is the author and finisher of your faith (Hebrews 12:2). He began a good work in you, and He is faithful to complete it (Philippians 1:6). The grace to begin again is not just available — it is abundant, overflowing, and waiting for you today.</p>`,
     category: 'Grace',
-    author: 'Rev. Emmanuel Oduro Cosby',
+    author: 'Rev. Emmanuel Cosby Oduro',
     status: 'published',
     views: 2480,
     created_at: new Date(Date.now() - 432000000).toISOString(),

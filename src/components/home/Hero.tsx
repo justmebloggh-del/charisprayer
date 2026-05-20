@@ -121,7 +121,7 @@ export default function Hero() {
   const liveUrl    = livestream?.youtube_url
   const replayUrl  = livestream?.replay_url
   const isLive     = livestream?.is_live ?? false
-  const streamTitle = livestream?.title || 'Daily Prayer Broadcast'
+  const streamTitle = livestream?.title || 'Charis Prayer Time'
 
   // Pick which URL to show: prefer live URL when is_live, else replay, else placeholder
   const activeUrl = isLive && isRealUrl(liveUrl) ? liveUrl!
@@ -160,7 +160,7 @@ export default function Hero() {
             </motion.h1>
 
             <motion.p {...fadeUp(0.14)} className="t-body" style={{ maxWidth: '420px' }}>
-              Join Rev. Emmanuel Oduro Cosby and thousands of believers worldwide in daily prayer,
+              Join Rev. Emmanuel Cosby Oduro and thousands of believers worldwide in daily prayer,
               worship, and the transforming power of God&apos;s Word.
             </motion.p>
 

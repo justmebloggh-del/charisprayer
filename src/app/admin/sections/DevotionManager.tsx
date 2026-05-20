@@ -13,7 +13,7 @@ const BLANK = {
   message: '',
   excerpt: '',
   featured_image_url: '',
-  author: 'Rev. Emmanuel Oduro Cosby',
+  author: 'Rev. Emmanuel Cosby Oduro',
   published: false,
   featured: false,
 }

@@ -18,7 +18,7 @@ const FALLBACK: Devotion[] = [
     scripture_text: 'The steadfast love of the Lord never ceases; his mercies never come to an end; they are new every morning; great is your faithfulness.',
     message: '<p>Every morning you wake up is a declaration of God\'s faithfulness. His mercies are not worn out or depleted — they are freshly given to you today.</p><p>Whatever yesterday looked like, this morning carries new grace, new strength, and new opportunity to encounter the living God. Do not let the weight of yesterday steal the gift of today.</p><p>Let this truth anchor your heart: the God who was faithful yesterday is faithful right now. He has not changed His mind about you. He has not walked away. His love is not contingent on your performance — it is rooted in His eternal character.</p>',
     excerpt: "Every morning you wake up is a declaration of God's faithfulness. His mercies are not worn out — they are freshly given to you today.",
-    author: 'Rev. Emmanuel Oduro Cosby', published: true, featured: true, views: 3240,
+    author: 'Rev. Emmanuel Cosby Oduro', published: true, featured: true, views: 3240,
     created_at: new Date().toISOString(), updated_at: new Date().toISOString(),
   },
   {
@@ -27,7 +27,7 @@ const FALLBACK: Devotion[] = [
     scripture_text: 'Do not be anxious about anything, but in everything by prayer and supplication with thanksgiving let your requests be made known to God.',
     message: '<p>Anxiety is real, but it does not have to be your final address. God invites you to bring every burden, every fear, every unanswered question into His presence.</p><p>Notice the instruction: in everything — not just the big things, but every little concern that weighs on your heart. God is interested in the details of your life. He cares about what keeps you up at night.</p><p>And when you pray, add thanksgiving. Not because everything is perfect, but because you serve a God who is bigger than your circumstances.</p>',
     excerpt: 'Anxiety is real, but it does not have to be your final address. God invites you to bring every burden into His presence.',
-    author: 'Rev. Emmanuel Oduro Cosby', published: true, featured: false, views: 2100,
+    author: 'Rev. Emmanuel Cosby Oduro', published: true, featured: false, views: 2100,
     created_at: new Date(Date.now() - 86400000).toISOString(), updated_at: new Date().toISOString(),
   },
   {
@@ -36,7 +36,7 @@ const FALLBACK: Devotion[] = [
     scripture_text: 'I appeal to you therefore, brothers, by the mercies of God, to present your bodies as a living sacrifice, holy and acceptable to God, which is your spiritual worship.',
     message: '<p>True worship begins not with a song, but with surrender. When you lay your life — your plans, your desires, your agenda — at the feet of Jesus, something supernatural happens.</p><p>Surrender is not weakness. It is the strongest act of faith you can make. It declares: "God, I trust You more than I trust my own understanding."</p>',
     excerpt: 'True worship begins not with a song, but with surrender. When you lay your life at the feet of Jesus, something supernatural happens.',
-    author: 'Rev. Emmanuel Oduro Cosby', published: true, featured: false, views: 1870,
+    author: 'Rev. Emmanuel Cosby Oduro', published: true, featured: false, views: 1870,
     created_at: new Date(Date.now() - 172800000).toISOString(), updated_at: new Date().toISOString(),
   },
   {
@@ -45,7 +45,7 @@ const FALLBACK: Devotion[] = [
     scripture_text: 'For all the promises of God find their Yes in him. That is why it is through him that we utter our Amen to God for his glory.',
     message: '<p>Every promise God has ever made to you is secured in Jesus Christ. Not one word has fallen to the ground. Not one covenant has been broken.</p><p>When you feel like the promise is delayed, remember: delay is not denial. God is working behind the scenes to align all things for your good and His glory.</p>',
     excerpt: 'Every promise God has ever made to you is secured in Jesus Christ. Not one word has fallen to the ground.',
-    author: 'Rev. Emmanuel Oduro Cosby', published: true, featured: false, views: 1520,
+    author: 'Rev. Emmanuel Cosby Oduro', published: true, featured: false, views: 1520,
     created_at: new Date(Date.now() - 259200000).toISOString(), updated_at: new Date().toISOString(),
   },
   {
@@ -54,7 +54,7 @@ const FALLBACK: Devotion[] = [
     scripture_text: 'I looked for someone among them who would build up the wall and stand before me in the gap on behalf of the land so I would not have to destroy it.',
     message: '<p>Intercession is one of the highest callings in the Kingdom of God. To stand before the Lord on behalf of others is a holy and powerful act of love.</p><p>When you intercede, you become a bridge between heaven and the need. You carry someone else\'s burden into the presence of a God who hears, who sees, and who acts.</p>',
     excerpt: 'Intercession is one of the highest callings in the Kingdom. To stand before the Lord on behalf of others is a holy act of love.',
-    author: 'Rev. Emmanuel Oduro Cosby', published: true, featured: false, views: 1200,
+    author: 'Rev. Emmanuel Cosby Oduro', published: true, featured: false, views: 1200,
     created_at: new Date(Date.now() - 345600000).toISOString(), updated_at: new Date().toISOString(),
   },
 ]

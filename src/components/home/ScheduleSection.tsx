@@ -1,89 +1,87 @@
-"use client";
-import { WEEKLY_SCHEDULE, WHATSAPP_CHANNEL } from "@/lib/constants";
+const schedule = [
+  { day: 'Monday',    short: 'MON', time: '6:00 AM', theme: 'Praise & Worship',       icon: '🎵', color: '#F59E0B' },
+  { day: 'Tuesday',   short: 'TUE', time: '6:00 AM', theme: 'Faith Declarations',     icon: '🗡️', color: '#EF4444' },
+  { day: 'Wednesday', short: 'WED', time: '6:00 AM', theme: 'Intercession',            icon: '🌍', color: '#3B82F6' },
+  { day: 'Thursday',  short: 'THU', time: '6:00 AM', theme: 'Healing & Restoration',  icon: '✨', color: '#8B5CF6' },
+  { day: 'Friday',    short: 'FRI', time: '6:00 AM', theme: 'Breakthrough Prayer',    icon: '⚡', color: '#EC4899' },
+  { day: 'Saturday',  short: 'SAT', time: '8:00 AM', theme: 'Family & Nations',       icon: '🏡', color: '#10B981' },
+  { day: 'Sunday',    short: 'SUN', time: '9:00 AM', theme: 'Thanksgiving & Worship', icon: '🙌', color: '#C9A227' },
+]
 
-export function ScheduleSection() {
+export default function ScheduleSection() {
+  const today = new Date().toLocaleDateString('en-US', { weekday: 'long' })
+
   return (
-    <section className="section-py bg-[#f5f4f0] relative overflow-hidden">
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
-
-      <div className="page-container">
-
-        {/* ── Header ── */}
-        <div className="text-center mb-14 sm:mb-16 lg:mb-20">
-          <p className="eyebrow mb-4">Join Us Live</p>
-          <h2 className="text-section font-serif font-bold text-[#0A1628] mb-4">Service Schedule</h2>
-          <div className="section-divider" />
-          <p className="text-gray-400 max-w-sm mx-auto mt-5 font-light leading-[1.75] text-sm sm:text-base">
-            Morning prayer starts at{" "}
-            <strong className="text-amber-600 font-semibold">5:00 AM every day</strong> — Monday through Sunday.
+    <section className="section-spacing" style={{ background: 'var(--surface)' }}>
+      <div className="site-container">
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '1rem', marginBottom: '3rem' }}>
+          <span className="section-label">Weekly Schedule</span>
+          <h2 className="t-h1 font-display">Join Us in Prayer</h2>
+          <p className="t-body" style={{ maxWidth: '480px' }}>
+            Every session is streamed live. Tune in daily and let God meet you in the place of prayer.
           </p>
         </div>
 
-        {/* ── Schedule cards ── */}
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-5 mb-14 sm:mb-16 lg:mb-20">
-          {WEEKLY_SCHEDULE.map((s, i) => (
-            <div
-              key={i}
-              className="group flex items-start gap-4 bg-white border border-gray-100 hover:border-amber-200 rounded-2xl p-5 sm:p-6 transition-all duration-300 hover:shadow-md hover:-translate-y-0.5"
-            >
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#0A1628] to-[#162040] flex items-center justify-center text-xl flex-shrink-0 shadow-sm group-hover:scale-105 transition-transform duration-300">
-                {s.icon}
-              </div>
-              <div className="flex-1 min-w-0 pt-0.5">
-                <div className="font-serif font-bold text-[#0A1628] text-[1.0rem] mb-1 leading-snug">{s.name}</div>
-                <div className="text-amber-600 font-semibold text-sm mb-3">{s.time} · {s.day}</div>
-                <div className="flex gap-2 flex-wrap">
-                  <span className="text-[10px] font-bold tracking-wider uppercase px-2.5 py-1 rounded-lg bg-amber-50 text-amber-700 border border-amber-100">
-                    {s.type}
-                  </span>
-                  <span className="text-[10px] font-bold tracking-wider uppercase px-2.5 py-1 rounded-lg bg-blue-50 text-blue-600 border border-blue-100">
-                    {s.platform}
-                  </span>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* ── WhatsApp CTA ── */}
-        <div className="relative bg-gradient-to-br from-[#0A1628] via-[#0d1e3a] to-[#162040] rounded-3xl overflow-hidden">
-          <div className="absolute inset-0 opacity-[0.035]" style={{
-            backgroundImage: "radial-gradient(circle, #C9A227 1px, transparent 1px)",
-            backgroundSize: "24px 24px"
-          }} />
-          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-amber-400/30 to-transparent" />
-
-          <div className="relative flex flex-col sm:flex-row items-center gap-8 sm:gap-10 px-8 sm:px-12 lg:px-16 py-12 sm:py-14">
-            <div className="flex-1 text-center sm:text-left">
-              <div className="inline-flex items-center gap-2 mb-4">
-                <span className="w-2 h-2 rounded-full bg-[#25D366]" />
-                <span className="text-[#25D366] text-[10px] font-black tracking-[3px] uppercase">WhatsApp Channel</span>
-              </div>
-              <h3 className="text-subsection font-serif font-bold text-white mb-3">Never Miss a Session</h3>
-              <p className="text-white/45 max-w-md font-light leading-[1.75] text-sm sm:text-base">
-                Get daily devotionals, session reminders, and stay connected with the global Charis Prayer community.
-              </p>
-            </div>
-
-            <div className="flex-shrink-0">
-              <a
-                href={WHATSAPP_CHANNEL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-3 bg-[#25D366] hover:bg-[#1ebe5d] text-white font-bold px-8 py-4 rounded-2xl transition-all duration-300 shadow-xl shadow-green-900/20 hover:-translate-y-0.5 text-sm sm:text-base whitespace-nowrap"
+        {/* Mobile: horizontal scroll. Desktop: grid */}
+        <div className="schedule-grid" style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(155px, 1fr))',
+          gap: '1rem',
+        }}>
+          {schedule.map(s => {
+            const isToday = s.day === today
+            return (
+              <div
+                key={s.day}
+                className="card"
+                style={{
+                  padding: '1.25rem 1rem',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '0.75rem',
+                  textAlign: 'center',
+                  alignItems: 'center',
+                  borderColor: isToday ? 'var(--border-gold)' : undefined,
+                  background: isToday ? 'linear-gradient(135deg, rgba(201,162,39,0.06), rgba(201,162,39,0.02))' : undefined,
+                  boxShadow: isToday ? 'var(--shadow-gold)' : undefined,
+                  position: 'relative',
+                  overflow: 'hidden',
+                }}
               >
-                <svg viewBox="0 0 24 24" className="w-5 h-5 fill-current flex-shrink-0">
-                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-                </svg>
-                Join — It&apos;s Free
-              </a>
-            </div>
-          </div>
+                {isToday && (
+                  <span style={{
+                    position: 'absolute', top: 0, left: 0, right: 0,
+                    height: '3px',
+                    background: 'linear-gradient(90deg, var(--gold), var(--gold-light))',
+                  }} />
+                )}
+
+                <span style={{ fontSize: '1.75rem', lineHeight: 1 }}>{s.icon}</span>
+
+                <div>
+                  <p style={{ fontSize: '0.625rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: s.color, marginBottom: '0.25rem' }}>{s.short}</p>
+                  <p style={{ fontWeight: 700, fontSize: '0.9375rem', color: isToday ? 'var(--gold-light)' : 'var(--text)' }}>{s.day}</p>
+                </div>
+
+                <p style={{ fontSize: '0.8125rem', color: 'var(--text-2)', lineHeight: 1.4 }}>{s.theme}</p>
+
+                <div style={{
+                  fontSize: '0.75rem', fontWeight: 600, color: isToday ? 'var(--gold)' : 'var(--text-3)',
+                  background: isToday ? 'var(--gold-muted)' : 'var(--elevated)',
+                  padding: '0.25rem 0.625rem', borderRadius: 'var(--r-full)',
+                  border: `1px solid ${isToday ? 'var(--border-gold)' : 'var(--border)'}`,
+                }}>
+                  {s.time} WAT
+                </div>
+
+                {isToday && (
+                  <span style={{ fontSize: '0.625rem', fontWeight: 700, color: 'var(--gold)', letterSpacing: '0.08em' }}>TODAY</span>
+                )}
+              </div>
+            )
+          })}
         </div>
-
       </div>
-
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
     </section>
-  );
+  )
 }

@@ -1,44 +1,58 @@
-import type { Metadata, Viewport } from "next";
-import "./globals.css";
-import { SITE_NAME, SITE_TAGLINE, FOUNDER_NAME } from "@/lib/constants";
+import type { Metadata, Viewport } from 'next'
+import { Playfair_Display, Inter } from 'next/font/google'
+import './globals.css'
+import { AudioProvider } from '@/context/AudioContext'
+import Navbar from '@/components/layout/Navbar'
+import Footer from '@/components/layout/Footer'
+import GlobalAudioPlayer from '@/components/ui/GlobalAudioPlayer'
+
+const playfair = Playfair_Display({
+  subsets: ['latin'],
+  variable: '--font-playfair',
+  display: 'swap',
+  weight: ['400', '500', '600', '700', '800'],
+  style: ['normal', 'italic'],
+})
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
-  title: { default: `${SITE_NAME} — ${SITE_TAGLINE}`, template: `%s | ${SITE_NAME}` },
-  description: `${SITE_NAME} is a global digital prayer ministry led by ${FOUNDER_NAME}. Stream daily prayer audios, watch live broadcasts, submit prayer requests, and experience God's presence daily.`,
-  keywords: ["prayer", "ministry", "live prayer", "Christian", "church", "Charis Prayer", "Rev Emmanuel Oduro Cosby", "healing prayer", "breakthrough"],
-  authors: [{ name: FOUNDER_NAME }],
-  creator: SITE_NAME,
+  title: { default: 'Charis Prayer', template: '%s | Charis Prayer' },
+  description: 'Where Grace Meets Prayer — A global prayer ministry led by Rev. Emmanuel Oduro Cosby.',
+  keywords: ['prayer', 'ministry', 'church', 'devotional', 'intercession', 'worship', 'livestream'],
   openGraph: {
-    type: "website",
-    locale: "en_US",
-    url: "https://charisprayer.org",
-    siteName: SITE_NAME,
-    title: `${SITE_NAME} — ${SITE_TAGLINE}`,
-    description: "Stream daily prayer audios, watch live broadcasts, and experience God's presence daily.",
+    type: 'website',
+    siteName: 'Charis Prayer',
+    description: 'Where Grace Meets Prayer — Daily prayer, devotions, and worship.',
   },
-  twitter: { card: "summary_large_image", title: `${SITE_NAME} — ${SITE_TAGLINE}` },
-  manifest: "/manifest.json",
-  icons: { icon: "/logo.jpg", apple: "/apple-touch-icon.png" },
-};
+}
 
 export const viewport: Viewport = {
-  themeColor: "#C9A227",
-  width: "device-width",
+  width: 'device-width',
   initialScale: 1,
-};
-
-import { Providers } from "@/components/Providers";
+  themeColor: '#09090B',
+}
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth">
+    <html lang="en" className={`${playfair.variable} ${inter.variable}`}>
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://www.youtube.com" />
+        <link rel="dns-prefetch" href="https://img.youtube.com" />
+        <link rel="preconnect" href="https://www.youtube.com" />
       </head>
-      <body className="antialiased">
-        <Providers>{children}</Providers>
+      <body>
+        <AudioProvider>
+          <Navbar />
+          <main style={{ minHeight: '100vh' }}>{children}</main>
+          <Footer />
+          <GlobalAudioPlayer />
+        </AudioProvider>
       </body>
     </html>
-  );
+  )
 }

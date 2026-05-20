@@ -1,113 +1,186 @@
-"use client";
+'use client'
 
-import React, { createContext, useContext, useState, useRef, useEffect, ReactNode } from "react";
+import { createContext, useContext, useRef, useState, useEffect, useCallback } from 'react'
+import type { Audio as AudioTrack } from '@/lib/types'
 
-export interface AudioTrack {
-  id: string;
-  title: string;
-  url: string;
-  cover?: string;
-  category?: string;
-  author?: string;
+interface AudioState {
+  currentTrack: AudioTrack | null
+  isPlaying: boolean
+  progress: number      // 0–100
+  duration: number      // seconds
+  currentTime: number   // seconds
+  volume: number        // 0–1
+  queue: AudioTrack[]
+  queueIndex: number
 }
 
-interface AudioContextType {
-  currentTrack: AudioTrack | null;
-  isPlaying: boolean;
-  progress: number;
-  duration: number;
-  playTrack: (track: AudioTrack) => void;
-  togglePlayPause: () => void;
-  seek: (time: number) => void;
-  closePlayer: () => void;
-  audioRef: React.RefObject<HTMLAudioElement | null>;
+interface AudioContextValue extends AudioState {
+  play: (track: AudioTrack, queue?: AudioTrack[]) => void
+  togglePlay: () => void
+  seek: (pct: number) => void
+  setVolume: (v: number) => void
+  next: () => void
+  prev: () => void
+  close: () => void
 }
 
-const AudioContext = createContext<AudioContextType | undefined>(undefined);
+const Ctx = createContext<AudioContextValue | null>(null)
 
-export function AudioProvider({ children }: { children: ReactNode }) {
-  const [currentTrack, setCurrentTrack] = useState<AudioTrack | null>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const [duration, setDuration] = useState(0);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+export function AudioProvider({ children }: { children: React.ReactNode }) {
+  const audioRef = useRef<HTMLAudioElement | null>(null)
+  const [state, setState] = useState<AudioState>({
+    currentTrack: null,
+    isPlaying: false,
+    progress: 0,
+    duration: 0,
+    currentTime: 0,
+    volume: 0.8,
+    queue: [],
+    queueIndex: 0,
+  })
 
+  // Create audio element once
   useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
-    if (isPlaying) {
-      // Small delay avoids AbortError when src changes and play() races with pause()
-      const t = setTimeout(() => {
-        audio.play().catch(() => {/* interrupted by src change — safe to ignore */});
-      }, 50);
-      return () => clearTimeout(t);
+    const audio = new Audio()
+    audio.volume = 0.8
+    audio.preload = 'metadata'
+    audioRef.current = audio
+
+    const onTimeUpdate = () => {
+      if (!audio.duration) return
+      setState(s => ({
+        ...s,
+        currentTime: audio.currentTime,
+        progress: (audio.currentTime / audio.duration) * 100,
+        duration: audio.duration,
+      }))
+    }
+
+    const onEnded = () => {
+      setState(s => {
+        if (s.queueIndex < s.queue.length - 1) {
+          const next = s.queueIndex + 1
+          audio.src = s.queue[next].file_url
+          audio.play().catch(() => {})
+          return { ...s, queueIndex: next, currentTrack: s.queue[next] }
+        }
+        return { ...s, isPlaying: false, progress: 0 }
+      })
+    }
+
+    const onLoadedMetadata = () => {
+      setState(s => ({ ...s, duration: audio.duration }))
+    }
+
+    audio.addEventListener('timeupdate', onTimeUpdate)
+    audio.addEventListener('ended', onEnded)
+    audio.addEventListener('loadedmetadata', onLoadedMetadata)
+
+    return () => {
+      audio.pause()
+      audio.removeEventListener('timeupdate', onTimeUpdate)
+      audio.removeEventListener('ended', onEnded)
+      audio.removeEventListener('loadedmetadata', onLoadedMetadata)
+    }
+  }, [])
+
+  const play = useCallback((track: AudioTrack, queue?: AudioTrack[]) => {
+    const audio = audioRef.current
+    if (!audio) return
+    const q = queue ?? [track]
+    const idx = q.findIndex(t => t.id === track.id)
+    if (track.file_url) {
+      audio.src = track.file_url
+      audio.play().catch(() => {})
     } else {
-      audio.pause();
+      audio.pause()
+      audio.src = ''
     }
-  }, [isPlaying, currentTrack]);
+    setState(s => ({
+      ...s,
+      currentTrack: track,
+      isPlaying: !!track.file_url,
+      progress: 0,
+      currentTime: 0,
+      duration: track.file_url ? s.duration : 0,
+      queue: q,
+      queueIndex: idx >= 0 ? idx : 0,
+    }))
+  }, [])
 
-  const playTrack = (track: AudioTrack) => {
-    if (currentTrack?.id === track.id) {
-      setIsPlaying(!isPlaying);
+  const togglePlay = useCallback(() => {
+    const audio = audioRef.current
+    if (!audio || !state.currentTrack) return
+    if (state.isPlaying) {
+      audio.pause()
+      setState(s => ({ ...s, isPlaying: false }))
     } else {
-      setCurrentTrack(track);
-      setIsPlaying(true);
-      setProgress(0);
+      audio.play().catch(() => {})
+      setState(s => ({ ...s, isPlaying: true }))
     }
-  };
+  }, [state.isPlaying, state.currentTrack])
 
-  const togglePlayPause = () => {
-    setIsPlaying(!isPlaying);
-  };
+  const seek = useCallback((pct: number) => {
+    const audio = audioRef.current
+    if (!audio || !audio.duration) return
+    audio.currentTime = (pct / 100) * audio.duration
+    setState(s => ({ ...s, progress: pct }))
+  }, [])
 
-  const seek = (time: number) => {
-    if (audioRef.current) {
-      audioRef.current.currentTime = time;
-      setProgress(time);
-    }
-  };
+  const setVolume = useCallback((v: number) => {
+    const audio = audioRef.current
+    if (!audio) return
+    audio.volume = v
+    setState(s => ({ ...s, volume: v }))
+  }, [])
 
-  const closePlayer = () => {
-    setCurrentTrack(null);
-    setIsPlaying(false);
-    setProgress(0);
-  };
+  const next = useCallback(() => {
+    setState(s => {
+      if (s.queueIndex >= s.queue.length - 1) return s
+      const idx = s.queueIndex + 1
+      const track = s.queue[idx]
+      const audio = audioRef.current
+      if (audio) {
+        if (track.file_url) { audio.src = track.file_url; audio.play().catch(() => {}) }
+        else { audio.pause(); audio.src = '' }
+      }
+      return { ...s, queueIndex: idx, currentTrack: track, isPlaying: !!track.file_url, progress: 0, currentTime: 0, duration: track.file_url ? s.duration : 0 }
+    })
+  }, [])
 
-  const onTimeUpdate = () => {
-    if (audioRef.current) {
-      setProgress(audioRef.current.currentTime);
-    }
-  };
+  const prev = useCallback(() => {
+    setState(s => {
+      const audio = audioRef.current
+      if (audio && audio.currentTime > 3) {
+        audio.currentTime = 0
+        return { ...s, progress: 0, currentTime: 0 }
+      }
+      if (s.queueIndex <= 0) return s
+      const idx = s.queueIndex - 1
+      const track = s.queue[idx]
+      if (audio) {
+        if (track.file_url) { audio.src = track.file_url; audio.play().catch(() => {}) }
+        else { audio.pause(); audio.src = '' }
+      }
+      return { ...s, queueIndex: idx, currentTrack: track, isPlaying: !!track.file_url, progress: 0, currentTime: 0, duration: track.file_url ? s.duration : 0 }
+    })
+  }, [])
 
-  const onLoadedMetadata = () => {
-    if (audioRef.current) {
-      setDuration(audioRef.current.duration);
-    }
-  };
-
-  const onEnded = () => {
-    setIsPlaying(false);
-  };
+  const close = useCallback(() => {
+    const audio = audioRef.current
+    if (audio) { audio.pause(); audio.src = '' }
+    setState(s => ({ ...s, currentTrack: null, isPlaying: false, progress: 0 }))
+  }, [])
 
   return (
-    <AudioContext.Provider value={{ currentTrack, isPlaying, progress, duration, playTrack, togglePlayPause, seek, closePlayer, audioRef }}>
+    <Ctx.Provider value={{ ...state, play, togglePlay, seek, setVolume, next, prev, close }}>
       {children}
-      {/* Hidden Audio Element */}
-      <audio
-        ref={audioRef}
-        src={currentTrack?.url || undefined}
-        onTimeUpdate={onTimeUpdate}
-        onLoadedMetadata={onLoadedMetadata}
-        onEnded={onEnded}
-      />
-    </AudioContext.Provider>
-  );
+    </Ctx.Provider>
+  )
 }
 
 export function useAudio() {
-  const context = useContext(AudioContext);
-  if (context === undefined) {
-    throw new Error("useAudio must be used within an AudioProvider");
-  }
-  return context;
+  const ctx = useContext(Ctx)
+  if (!ctx) throw new Error('useAudio must be inside AudioProvider')
+  return ctx
 }

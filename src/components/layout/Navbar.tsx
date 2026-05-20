@@ -1,229 +1,208 @@
-"use client";
-import { useState, useEffect, useCallback } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { Menu, X } from "lucide-react";
-import { CharisLogo } from "@/components/ui/CharisLogo";
-import { WHATSAPP_CHANNEL, YOUTUBE_CHANNEL } from "@/lib/constants";
-import { cn } from "@/lib/utils";
+'use client'
 
-const NAV_LINKS = [
-  { href: "/",             label: "Home" },
-  { href: "/prayers",      label: "Prayers" },
-  { href: "/church",       label: "Church" },
-  { href: "/testimonies",  label: "Testimonies" },
-  { href: "/blog",         label: "Blog" },
-  { href: "/about",        label: "About" },
-  { href: "/contact",      label: "Contact" },
-];
+import Link from 'next/link'
+import Image from 'next/image'
+import { usePathname } from 'next/navigation'
+import { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Menu, X } from 'lucide-react'
 
-const WA_SVG = (
-  <svg viewBox="0 0 24 24" className="w-4 h-4 fill-current flex-shrink-0" aria-hidden="true">
-    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+const YtIcon = () => (
+  <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M23 7s-.3-2-1.2-2.8c-1.1-1.2-2.4-1.2-3-1.3C16.1 2.8 12 2.8 12 2.8s-4.1 0-6.8.2C4.6 3 3.3 3 2.2 4.2 1.3 5 1 7 1 7S.7 9.2.7 11.5v2.1C.7 16 1 18.2 1 18.2s.3 2 1.2 2.8c1.1 1.2 2.6 1.1 3.3 1.2C7.6 22.4 12 22.5 12 22.5s4.1 0 6.8-.2c.6-.1 1.9-.1 3-1.3.9-.8 1.2-2.8 1.2-2.8s.3-2.2.3-4.5v-2.1C23.3 9.2 23 7 23 7zM9.7 15.5V8.3l8.1 3.6-8.1 3.6z"/>
   </svg>
-);
+)
+const FbIcon = () => (
+  <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+  </svg>
+)
+const IgIcon = () => (
+  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+  </svg>
+)
 
-export function Navbar() {
-  const [scrolled, setScrolled]     = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const pathname = usePathname();
-  const isHome = pathname === "/";
+const navLinks = [
+  { href: '/', label: 'Home' },
+  { href: '/prayer-request', label: 'Prayer' },
+  { href: '/devotion', label: 'Devotion' },
+  { href: '/blog', label: 'Blog' },
+]
+
+export default function Navbar() {
+  const pathname = usePathname()
+  const [open, setOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
-    const handler = () => setScrolled(window.scrollY > 40);
-    window.addEventListener("scroll", handler, { passive: true });
-    handler();
-    return () => window.removeEventListener("scroll", handler);
-  }, []);
+    const handler = () => setScrolled(window.scrollY > 20)
+    window.addEventListener('scroll', handler, { passive: true })
+    return () => window.removeEventListener('scroll', handler)
+  }, [])
 
-  useEffect(() => {
-    document.body.style.overflow = mobileOpen ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
-  }, [mobileOpen]);
+  useEffect(() => { setOpen(false) }, [pathname])
 
-  // Close on route change
-  useEffect(() => { setMobileOpen(false); }, [pathname]);
-
-  const closeMobile  = useCallback(() => setMobileOpen(false), []);
-  const toggleMobile = useCallback(() => setMobileOpen(p => !p), []);
-
-  const transparent = isHome && !scrolled;
+  const isActive = (href: string) =>
+    href === '/' ? pathname === '/' : pathname.startsWith(href)
 
   return (
     <>
-      <nav
-        className={cn(
-          "fixed top-0 left-0 right-0 z-50 h-16 transition-all duration-400",
-          transparent
-            ? "bg-transparent"
-            : "bg-white/95 backdrop-blur-xl border-b border-gray-100/80 shadow-[0_1px_20px_rgba(0,0,0,0.06)]"
-        )}
-      >
-        <div className="page-container h-full flex items-center gap-6">
+      <header style={{
+        position: 'sticky', top: 0, zIndex: 50,
+        transition: 'background 0.3s ease, border-color 0.3s ease',
+        ...(scrolled
+          ? { background: 'rgba(9,9,11,0.92)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', borderBottom: '1px solid rgba(255,255,255,0.06)' }
+          : { background: 'transparent', borderBottom: '1px solid transparent' }),
+      }}>
+        <nav className="site-container" style={{ display: 'flex', alignItems: 'center', height: '66px', gap: '1.5rem' }}>
+
           {/* Logo */}
-          <Link href="/" className="flex-shrink-0" onClick={closeMobile} aria-label="Charis Prayer Home">
-            <CharisLogo
-              size={36}
-              animated={false}
-              textColor={transparent ? "white" : "dark"}
-              className="h-9"
-            />
+          <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '0.625rem', flexShrink: 0, textDecoration: 'none' }}>
+            <div style={{ width: '34px', height: '34px', borderRadius: '8px', overflow: 'hidden', border: '1px solid var(--border-gold)', flexShrink: 0 }}>
+              <Image src="/charislogo.jpg" alt="Charis Prayer" width={34} height={34} priority style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            </div>
+            <span style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700, fontSize: '1.0625rem', color: 'var(--text)', letterSpacing: '-0.01em' }}>
+              Charis Prayer
+            </span>
           </Link>
 
           {/* Desktop nav links */}
-          <div className="hidden lg:flex items-center gap-1 flex-1">
-            {NAV_LINKS.map(({ href, label }) => {
-              const active = pathname === href;
-              return (
-                <Link
-                  key={href}
-                  href={href}
-                  className={cn(
-                    "relative px-3.5 py-2 text-sm font-medium rounded-lg transition-colors duration-200",
-                    transparent
-                      ? active ? "text-amber-400" : "text-white/80 hover:text-white"
-                      : active ? "text-amber-600" : "text-gray-600 hover:text-gray-900"
-                  )}
-                >
-                  {label}
-                  {active && (
-                    <span className="absolute bottom-0.5 left-3 right-3 h-0.5 bg-amber-400 rounded-full" />
-                  )}
-                </Link>
-              );
-            })}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.125rem', marginLeft: 'auto' }} className="desktop-nav">
+            {navLinks.map((l) => (
+              <Link
+                key={l.href}
+                href={l.href}
+                prefetch={true}
+                style={{
+                  padding: '0.4rem 0.875rem',
+                  borderRadius: 'var(--r-sm)',
+                  fontSize: '0.875rem',
+                  fontWeight: 500,
+                  transition: 'color 0.15s ease, background 0.15s ease',
+                  color: isActive(l.href) ? 'var(--gold-light)' : 'var(--text-2)',
+                  background: isActive(l.href) ? 'var(--gold-muted)' : 'transparent',
+                }}
+                className="nav-link"
+              >
+                {l.label}
+              </Link>
+            ))}
           </div>
 
-          {/* Desktop right actions */}
-          <div className="hidden lg:flex items-center gap-3 ml-auto flex-shrink-0">
-            {/* Live indicator */}
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-red-400/30 bg-red-500/10">
-              <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse-red flex-shrink-0" />
-              <span className={cn("text-[10px] font-black tracking-widest uppercase", transparent ? "text-red-400" : "text-red-500")}>
-                Live
-              </span>
-            </div>
+          {/* Right: social + CTA */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.875rem', marginLeft: '0.5rem' }} className="desktop-nav">
+            <span className="badge badge-live" style={{ fontSize: '0.5625rem' }}>LIVE</span>
 
-            {/* Donate */}
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-1.5 bg-gradient-to-r from-amber-500 to-yellow-400 text-[#0A1628] text-xs font-bold px-4 py-2 rounded-full hover:brightness-105 transition-all shadow-sm shadow-amber-200/50"
+            <a href="https://youtube.com/@charisprayer" target="_blank" rel="noopener noreferrer"
+              style={{ color: 'var(--text-3)', transition: 'color 0.15s', display: 'flex' }}
+              className="social-yt" aria-label="YouTube"
             >
-              Give / Donate
-            </Link>
+              <YtIcon />
+            </a>
+            <a href="https://facebook.com/charisprayer" target="_blank" rel="noopener noreferrer"
+              style={{ color: 'var(--text-3)', transition: 'color 0.15s', display: 'flex' }}
+              className="social-fb" aria-label="Facebook"
+            >
+              <FbIcon />
+            </a>
 
-            {/* Login */}
-            <Link
-              href="/login"
-              className={cn(
-                "text-sm font-medium px-3 py-2 rounded-lg transition-colors",
-                transparent ? "text-white/70 hover:text-white" : "text-gray-500 hover:text-gray-800"
-              )}
-            >
-              Login
+            <Link href="/prayer-request" className="btn btn-gold btn-sm" prefetch={true}>Submit Prayer</Link>
+            <Link href="/login" style={{ fontSize: '0.8125rem', fontWeight: 500, color: 'var(--text-3)', transition: 'color 0.15s' }} className="admin-link" prefetch={false}>
+              Admin
             </Link>
           </div>
 
           {/* Mobile hamburger */}
           <button
-            onClick={toggleMobile}
-            aria-label={mobileOpen ? "Close menu" : "Open menu"}
-            aria-expanded={mobileOpen}
-            className={cn(
-              "ml-auto lg:hidden p-2 rounded-xl transition-colors",
-              transparent ? "text-white hover:bg-white/10" : "text-gray-700 hover:bg-gray-100"
-            )}
+            onClick={() => setOpen(!open)}
+            aria-label={open ? 'Close menu' : 'Open menu'}
+            aria-expanded={open}
+            style={{ background: 'none', border: 'none', color: 'var(--text-2)', cursor: 'pointer', padding: '6px', marginLeft: 'auto', display: 'none' }}
+            className="mobile-menu-btn"
           >
-            {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            {open ? <X size={22} /> : <Menu size={22} />}
           </button>
-        </div>
-      </nav>
-
-      {/* Mobile overlay */}
-      <div
-        className={cn(
-          "fixed inset-0 z-40 bg-black/60 backdrop-blur-sm lg:hidden transition-opacity duration-300",
-          mobileOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-        )}
-        onClick={closeMobile}
-        aria-hidden="true"
-      />
+        </nav>
+      </header>
 
       {/* Mobile drawer */}
-      <div
-        className={cn(
-          "fixed top-0 right-0 h-full w-[82vw] max-w-sm bg-[#0A1628] z-50 flex flex-col lg:hidden",
-          "transition-transform duration-300 ease-out will-change-transform",
-          mobileOpen ? "translate-x-0" : "translate-x-full"
-        )}
-      >
-        {/* Gold accent bar */}
-        <div className="h-1 bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-500 flex-shrink-0" />
-
-        {/* Header */}
-        <div className="flex items-center justify-between px-6 py-5 border-b border-white/8">
-          <CharisLogo size={34} animated={false} textColor="white" />
-          <button
-            onClick={closeMobile}
-            aria-label="Close menu"
-            className="p-2 rounded-xl text-white/40 hover:text-white hover:bg-white/8 transition-colors"
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, x: '100%' }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: '100%' }}
+            transition={{ type: 'spring', damping: 30, stiffness: 260 }}
+            style={{
+              position: 'fixed', inset: 0, zIndex: 49,
+              background: 'var(--surface)',
+              display: 'flex', flexDirection: 'column',
+              paddingTop: '76px',
+            }}
           >
-            <X className="w-5 h-5" />
-          </button>
-        </div>
+            <button
+              onClick={() => setOpen(false)}
+              style={{ position: 'absolute', top: '1rem', right: '1.25rem', background: 'none', border: 'none', color: 'var(--text-2)', cursor: 'pointer', padding: '8px' }}
+              aria-label="Close menu"
+            >
+              <X size={24} />
+            </button>
 
-        {/* Nav links */}
-        <nav className="flex-1 overflow-y-auto px-4 py-6 space-y-1">
-          {NAV_LINKS.map(({ href, label }) => {
-            const active = pathname === href;
-            return (
-              <Link
-                key={href}
-                href={href}
-                onClick={closeMobile}
-                className={cn(
-                  "flex items-center justify-between px-4 py-3.5 rounded-xl text-base font-medium transition-all",
-                  active
-                    ? "bg-amber-400/12 text-amber-400 border border-amber-400/20"
-                    : "text-white/65 hover:text-white hover:bg-white/6"
-                )}
+            <nav style={{ display: 'flex', flexDirection: 'column', padding: '1rem 1.5rem', gap: '0.25rem' }}>
+              {navLinks.map((l, i) => (
+                <motion.div key={l.href} initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.055 }}>
+                  <Link
+                    href={l.href}
+                    prefetch={true}
+                    style={{
+                      display: 'block',
+                      padding: '0.9375rem 1.25rem',
+                      borderRadius: 'var(--r)',
+                      fontSize: '1.25rem',
+                      fontFamily: "'Playfair Display', serif",
+                      fontWeight: 600,
+                      color: isActive(l.href) ? 'var(--gold-light)' : 'var(--text)',
+                      background: isActive(l.href) ? 'var(--gold-muted)' : 'transparent',
+                    }}
+                  >
+                    {l.label}
+                  </Link>
+                </motion.div>
+              ))}
+
+              <motion.div initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.25 }}
+                style={{ marginTop: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.75rem', padding: '0 1.25rem' }}
               >
-                {label}
-                {active && <span className="w-2 h-2 rounded-full bg-amber-400" />}
-              </Link>
-            );
-          })}
-        </nav>
+                <Link href="/prayer-request" className="btn btn-gold" style={{ justifyContent: 'center' }} prefetch={true}>Submit Prayer Request</Link>
+                <Link href="/login" className="btn btn-ghost" style={{ justifyContent: 'center' }} prefetch={false}>Admin Login</Link>
+              </motion.div>
 
-        {/* Social + CTAs */}
-        <div className="px-5 py-6 border-t border-white/8 space-y-3">
-          {/* Live pill */}
-          <div className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-red-500/10 border border-red-500/20">
-            <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse-red" />
-            <span className="text-red-400 text-xs font-black tracking-widest uppercase">Live Now · 5:00 AM Daily</span>
-          </div>
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.32 }}
+                style={{ display: 'flex', gap: '1.5rem', padding: '2rem 1.25rem 0', alignItems: 'center' }}
+              >
+                <a href="https://youtube.com/@charisprayer" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-3)' }} aria-label="YouTube"><YtIcon /></a>
+                <a href="https://facebook.com/charisprayer" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-3)' }} aria-label="Facebook"><FbIcon /></a>
+                <a href="https://instagram.com/charisprayer" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-3)' }} aria-label="Instagram"><IgIcon /></a>
+                <a href="https://wa.me/message/charisprayer" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-3)', fontSize: '0.8125rem', fontWeight: 500 }}>WhatsApp</a>
+              </motion.div>
+            </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-          {/* Donate */}
-          <Link
-            href="/contact"
-            onClick={closeMobile}
-            className="flex items-center justify-center gap-2 bg-gradient-to-r from-amber-500 to-yellow-400 text-[#0A1628] font-bold py-3.5 rounded-2xl text-sm w-full hover:brightness-105 transition-all"
-          >
-            Give / Donate
-          </Link>
-
-          {/* WhatsApp */}
-          <a
-            href={WHATSAPP_CHANNEL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2.5 bg-[#25D366]/15 border border-[#25D366]/30 text-[#25D366] font-semibold py-3.5 rounded-2xl text-sm w-full hover:bg-[#25D366]/20 transition-colors"
-          >
-            {WA_SVG}
-            Join WhatsApp Channel
-          </a>
-        </div>
-      </div>
+      <style>{`
+        @media (max-width: 820px) {
+          .mobile-menu-btn { display: flex !important; }
+          .desktop-nav { display: none !important; }
+        }
+        .nav-link:hover { color: var(--text) !important; }
+        .social-yt:hover { color: #EF4444 !important; }
+        .social-fb:hover { color: #3B82F6 !important; }
+        .admin-link:hover { color: var(--text) !important; }
+      `}</style>
     </>
-  );
+  )
 }

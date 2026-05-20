@@ -1,148 +1,153 @@
-"use client";
+'use client'
 
-import { useAudio } from "@/context/AudioContext";
-import { Play, Pause, X, SkipForward, SkipBack, Volume2, VolumeX } from "lucide-react";
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useAudio } from '@/context/AudioContext'
+import { AnimatePresence, motion } from 'framer-motion'
+import * as Slider from '@radix-ui/react-slider'
+import {
+  Play, Pause, SkipBack, SkipForward, Volume2, VolumeX, X, Music2, Upload
+} from 'lucide-react'
 
-function formatTime(seconds: number) {
-  if (isNaN(seconds) || seconds < 0) return "0:00";
-  const m = Math.floor(seconds / 60);
-  const s = Math.floor(seconds % 60);
-  return `${m}:${s.toString().padStart(2, "0")}`;
+function formatTime(s: number) {
+  if (!s || isNaN(s)) return '0:00'
+  const m = Math.floor(s / 60)
+  const sec = Math.floor(s % 60)
+  return `${m}:${sec.toString().padStart(2, '0')}`
 }
 
-export function GlobalAudioPlayer() {
-  const { currentTrack, isPlaying, progress, duration, togglePlayPause, seek, closePlayer } = useAudio();
-  const [volume, setVolume] = useState(1);
-  const [muted, setMuted] = useState(false);
-  const [dragging, setDragging] = useState(false);
-  const progressRef = useRef<HTMLDivElement>(null);
+export default function GlobalAudioPlayer() {
+  const { currentTrack, isPlaying, progress, currentTime, duration, volume, togglePlay, seek, setVolume, next, prev, close } = useAudio()
 
-  const pct = duration > 0 ? (progress / duration) * 100 : 0;
-
-  const getPos = useCallback((e: React.MouseEvent | MouseEvent) => {
-    if (!progressRef.current) return 0;
-    const rect = progressRef.current.getBoundingClientRect();
-    return Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-  }, []);
-
-  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    seek(getPos(e) * duration);
-  };
-
-  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
-    setDragging(true);
-    seek(getPos(e) * duration);
-  };
-
-  useEffect(() => {
-    if (!dragging) return;
-    const onMove = (e: MouseEvent) => seek(getPos(e) * duration);
-    const onUp = () => setDragging(false);
-    window.addEventListener("mousemove", onMove);
-    window.addEventListener("mouseup", onUp);
-    return () => { window.removeEventListener("mousemove", onMove); window.removeEventListener("mouseup", onUp); };
-  }, [dragging, duration, getPos, seek]);
-
-  if (!currentTrack) return null;
+  const hasFile = !!currentTrack?.file_url
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50">
-      {/* Progress scrubber — above main bar */}
-      <div
-        ref={progressRef}
-        className="h-1 bg-white/10 cursor-pointer group relative"
-        onClick={handleClick}
-        onMouseDown={handleMouseDown}
-      >
-        <div
-          className="h-full bg-gradient-to-r from-amber-500 to-yellow-400 relative transition-none"
-          style={{ width: `${pct}%` }}
+    <AnimatePresence>
+      {currentTrack && (
+        <motion.div
+          initial={{ y: 100, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: 100, opacity: 0 }}
+          transition={{ type: 'spring', damping: 28, stiffness: 300 }}
+          className="fixed bottom-0 left-0 right-0 z-[100]"
+          style={{ background: 'rgba(13,13,16,0.96)', backdropFilter: 'blur(24px)', borderTop: '1px solid rgba(201,162,39,0.15)' }}
         >
-          <div className="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-amber-400 opacity-0 group-hover:opacity-100 transition-opacity shadow-lg" />
-        </div>
-      </div>
+          {/* Progress bar */}
+          <div
+            style={{ position: 'relative', height: '3px', background: 'rgba(255,255,255,0.06)', cursor: hasFile ? 'pointer' : 'default' }}
+            onClick={(e) => {
+              if (!hasFile) return
+              const rect = e.currentTarget.getBoundingClientRect()
+              seek(((e.clientX - rect.left) / rect.width) * 100)
+            }}
+          >
+            <div style={{ height: '100%', background: 'linear-gradient(90deg, #C9A227, #F0D878)', transition: 'width 0.3s linear', width: `${progress}%` }} />
+          </div>
 
-      {/* Main player bar */}
-      <div className="bg-[#0A1628]/95 backdrop-blur-xl border-t border-white/8 px-4 sm:px-6 py-3">
-        <div className="max-w-7xl mx-auto flex items-center gap-4 sm:gap-6">
+          <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0.75rem clamp(1rem,4vw,2rem)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
 
-          {/* Left: track info */}
-          <div className="flex items-center gap-3 flex-1 min-w-0">
-            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-amber-500/20 to-amber-500/5 border border-amber-400/20 flex items-center justify-center flex-shrink-0">
-              <span className="text-xl">{currentTrack.cover ? undefined : "🎵"}</span>
-              {currentTrack.cover && (
-                <img src={currentTrack.cover} alt={currentTrack.title} className="w-full h-full object-cover rounded-xl" />
+              {/* Track info */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.875rem', flex: '1', minWidth: 0 }}>
+                <div style={{ width: '44px', height: '44px', borderRadius: '8px', background: 'var(--card)', border: '1px solid var(--border-gold)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, overflow: 'hidden' }}>
+                  {currentTrack.cover_url
+                    ? <img src={currentTrack.cover_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    : <Music2 size={18} color="var(--gold)" />
+                  }
+                </div>
+                <div style={{ minWidth: 0 }}>
+                  <p style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                    {currentTrack.title}
+                  </p>
+                  {hasFile ? (
+                    <p style={{ fontSize: '0.75rem', color: 'var(--text-3)', marginTop: '1px' }}>{currentTrack.category}</p>
+                  ) : (
+                    <p style={{ fontSize: '0.7rem', color: 'var(--amber)', marginTop: '1px', display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
+                      <Upload size={10} /> Upload audio file in Admin
+                    </p>
+                  )}
+                </div>
+
+                {/* Waveform */}
+                {isPlaying && hasFile && (
+                  <div className="waveform" style={{ marginLeft: '0.5rem' }}>
+                    {[18, 28, 14, 32, 22, 30, 16, 26].map((h, i) => (
+                      <div key={i} className="waveform-bar" style={{ height: `${h}px`, animationDelay: `${i * 0.07}s` }} />
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Controls */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', flexShrink: 0 }}>
+                <button onClick={prev} className="btn btn-icon btn-ghost btn-sm" style={{ color: 'var(--text-2)' }} aria-label="Previous">
+                  <SkipBack size={17} />
+                </button>
+                <button
+                  onClick={hasFile ? togglePlay : undefined}
+                  aria-label={isPlaying ? 'Pause' : 'Play'}
+                  title={!hasFile ? 'No audio file — upload one in Admin' : undefined}
+                  style={{
+                    width: '40px', height: '40px', borderRadius: '50%',
+                    background: hasFile ? 'var(--gold)' : 'var(--elevated)',
+                    color: hasFile ? '#000' : 'var(--text-3)',
+                    border: hasFile ? 'none' : '1px solid var(--border)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    cursor: hasFile ? 'pointer' : 'not-allowed',
+                    transition: 'all 0.15s ease',
+                    flexShrink: 0,
+                    opacity: hasFile ? 1 : 0.5,
+                  }}
+                >
+                  {isPlaying ? <Pause size={17} fill="currentColor" /> : <Play size={17} fill="currentColor" style={{ marginLeft: '2px' }} />}
+                </button>
+                <button onClick={next} className="btn btn-icon btn-ghost btn-sm" style={{ color: 'var(--text-2)' }} aria-label="Next">
+                  <SkipForward size={17} />
+                </button>
+              </div>
+
+              {/* Time — only meaningful when there's a file */}
+              {hasFile && (
+                <span className="audio-time" style={{ fontSize: '0.75rem', color: 'var(--text-3)', whiteSpace: 'nowrap', flexShrink: 0 }}>
+                  {formatTime(currentTime)} / {formatTime(duration)}
+                </span>
               )}
-            </div>
-            <div className="min-w-0">
-              <p className="text-white text-xs sm:text-sm font-semibold truncate leading-tight">{currentTrack.title}</p>
-              <p className="text-white/40 text-[11px] truncate mt-0.5">{currentTrack.author || "Charis Prayer"}</p>
-            </div>
-          </div>
 
-          {/* Center: controls */}
-          <div className="flex items-center gap-3 sm:gap-4 flex-shrink-0">
-            <button className="text-white/30 hover:text-white/70 transition-colors hidden sm:block p-1">
-              <SkipBack className="w-4 h-4" />
-            </button>
-            <button
-              onClick={togglePlayPause}
-              className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-amber-400 text-[#0A1628] flex items-center justify-center hover:bg-yellow-300 transition-colors shadow-lg shadow-amber-400/25 flex-shrink-0"
-            >
-              {isPlaying
-                ? <Pause className="w-4 h-4 sm:w-5 sm:h-5" />
-                : <Play className="w-4 h-4 sm:w-5 sm:h-5 ml-0.5" />}
-            </button>
-            <button className="text-white/30 hover:text-white/70 transition-colors hidden sm:block p-1">
-              <SkipForward className="w-4 h-4" />
-            </button>
-          </div>
+              {/* Volume — hide on mobile */}
+              {hasFile && (
+                <div className="audio-volume" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexShrink: 0 }}>
+                  <button
+                    onClick={() => setVolume(volume > 0 ? 0 : 0.8)}
+                    style={{ background: 'none', border: 'none', color: 'var(--text-3)', cursor: 'pointer', padding: '4px', display: 'flex' }}
+                  >
+                    {volume === 0 ? <VolumeX size={16} /> : <Volume2 size={16} />}
+                  </button>
+                  <div style={{ width: '72px' }}>
+                    <Slider.Root
+                      value={[volume * 100]}
+                      onValueChange={([v]) => setVolume(v / 100)}
+                      max={100} step={1}
+                      style={{ position: 'relative', display: 'flex', alignItems: 'center', height: '16px', cursor: 'pointer' }}
+                    >
+                      <Slider.Track style={{ background: 'rgba(255,255,255,0.1)', borderRadius: '99px', height: '3px', flexGrow: 1, position: 'relative' }}>
+                        <Slider.Range style={{ background: 'var(--gold)', borderRadius: '99px', position: 'absolute', height: '100%' }} />
+                      </Slider.Track>
+                      <Slider.Thumb style={{ display: 'block', width: '12px', height: '12px', background: 'var(--gold)', borderRadius: '50%', border: 'none', outline: 'none', cursor: 'grab' }} />
+                    </Slider.Root>
+                  </div>
+                </div>
+              )}
 
-          {/* Right: time + volume + close */}
-          <div className="flex items-center gap-3 sm:gap-4 flex-1 justify-end">
-            <span className="text-white/35 text-xs font-mono hidden sm:block tabular-nums">
-              {formatTime(progress)} / {formatTime(duration)}
-            </span>
-
-            {/* Volume */}
-            <div className="hidden md:flex items-center gap-2">
+              {/* Close */}
               <button
-                onClick={() => setMuted(m => !m)}
-                className="text-white/40 hover:text-white/70 transition-colors"
+                onClick={close}
+                style={{ background: 'none', border: 'none', color: 'var(--text-3)', cursor: 'pointer', padding: '4px', display: 'flex', flexShrink: 0 }}
+                aria-label="Close player"
               >
-                {muted || volume === 0 ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+                <X size={16} />
               </button>
-              <div className="relative w-16 h-1 bg-white/15 rounded-full cursor-pointer group"
-                onClick={(e) => {
-                  const rect = e.currentTarget.getBoundingClientRect();
-                  const v = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-                  setVolume(v);
-                  setMuted(false);
-                }}>
-                <div className="h-full bg-white/60 rounded-full" style={{ width: `${muted ? 0 : volume * 100}%` }} />
-              </div>
             </div>
-
-            {/* Wave bars (when playing) */}
-            {isPlaying && (
-              <div className="hidden sm:flex items-end gap-0.5 h-4">
-                {[12, 18, 14, 20, 16].map((h, i) => (
-                  <div key={i} className="wave-bar" style={{ height: h, animationDelay: `${i * 0.12}s` }} />
-                ))}
-              </div>
-            )}
-
-            <button
-              onClick={closePlayer}
-              className="text-white/30 hover:text-white/70 hover:bg-white/8 p-1.5 rounded-lg transition-all"
-              title="Close player"
-            >
-              <X className="w-4 h-4" />
-            </button>
           </div>
-        </div>
-      </div>
-    </div>
-  );
+        </motion.div>
+      )}
+    </AnimatePresence>
+  )
 }

@@ -1,25 +1,37 @@
-import { createClient } from "@/utils/supabase/server";
-import { AdminDashboard } from "./AdminDashboard";
+import { createClient } from '@/utils/supabase/server'
+import AdminDashboard from './AdminDashboard'
 
-const IS_CONFIGURED =
-  (process.env.NEXT_PUBLIC_SUPABASE_URL ?? "").length > 0 &&
-  !process.env.NEXT_PUBLIC_SUPABASE_URL?.includes("placeholder");
+export const metadata = { title: 'Admin Dashboard' }
+
+async function safe<T>(fn: () => Promise<T>, ms = 2000): Promise<T | null> {
+  return Promise.race<T | null>([
+    (async () => { try { return await fn() } catch { return null } })(),
+    new Promise<null>(res => setTimeout(() => res(null), ms)),
+  ])
+}
 
 export default async function AdminPage() {
-  let userObj = { email: "admin", role: "admin" };
+  const supabase = await createClient()
 
-  if (IS_CONFIGURED) {
-    const { redirect } = await import("next/navigation");
-    const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) redirect("/login");
-    if (user) {
-      userObj = {
-        email: user.email ?? "admin",
-        role: (user.user_metadata?.role as string) ?? "admin",
-      };
-    }
-  }
+  const [prayers, testimonies, posts, audios, videos, devotions, livestreamData] = await Promise.all([
+    safe(async () => { const { data } = await supabase.from('prayer_requests').select('*').order('created_at', { ascending: false }); return data ?? [] }),
+    safe(async () => { const { data } = await supabase.from('testimonies').select('*').order('created_at', { ascending: false }); return data ?? [] }),
+    safe(async () => { const { data } = await supabase.from('blog_posts').select('*').order('created_at', { ascending: false }); return data ?? [] }),
+    safe(async () => { const { data } = await supabase.from('audios').select('*').order('created_at', { ascending: false }); return data ?? [] }),
+    safe(async () => { const { data } = await supabase.from('videos').select('*').order('created_at', { ascending: false }); return data ?? [] }),
+    safe(async () => { const { data } = await supabase.from('devotions').select('*').order('created_at', { ascending: false }); return data ?? [] }),
+    safe(async () => { const { data } = await supabase.from('livestream_settings').select('*').eq('id', 1).single(); return data ?? null }),
+  ])
 
-  return <AdminDashboard user={userObj} />;
+  return (
+    <AdminDashboard
+      prayers={prayers ?? []}
+      testimonies={testimonies ?? []}
+      posts={posts ?? []}
+      audios={audios ?? []}
+      videos={videos ?? []}
+      devotions={devotions ?? []}
+      livestream={livestreamData ?? null}
+    />
+  )
 }

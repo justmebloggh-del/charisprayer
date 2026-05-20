@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useAudio } from '@/context/AudioContext'
 import { Play, Pause, Download, Music2, Clock } from 'lucide-react'
 import type { Audio as AudioTrack } from '@/lib/types'
@@ -135,10 +135,20 @@ function AudioCard({ track, queue }: { track: AudioTrack; queue: AudioTrack[] })
   )
 }
 
-interface Props { tracks?: AudioTrack[] }
-
-export default function AudioSection({ tracks = FALLBACK }: Props) {
+export default function AudioSection() {
+  const [tracks, setTracks] = useState<AudioTrack[]>(FALLBACK)
   const [activeCategory, setActiveCategory] = useState('All')
+
+  useEffect(() => {
+    ;(async () => {
+      try {
+        const { createPublicClient } = await import('@/utils/supabase/public')
+        const { data } = await createPublicClient()
+          .from('audios').select('*').order('created_at', { ascending: false }).limit(12)
+        if (data && data.length > 0) setTracks(data as AudioTrack[])
+      } catch {}
+    })()
+  }, [])
   const filtered = activeCategory === 'All' ? tracks : tracks.filter(t => t.category === activeCategory)
 
   return (

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { ArrowRight, Radio, Play } from 'lucide-react'
@@ -101,9 +101,20 @@ function LivePlaceholder({ channelId }: { channelId?: string | null }) {
   )
 }
 
-interface Props { livestream?: LivestreamSettings | null }
+export default function Hero() {
+  const [livestream, setLivestream] = useState<LivestreamSettings | null>(null)
 
-export default function Hero({ livestream }: Props) {
+  useEffect(() => {
+    ;(async () => {
+      try {
+        const { createPublicClient } = await import('@/utils/supabase/public')
+        const { data } = await createPublicClient()
+          .from('livestream_settings').select('*').eq('id', 1).single()
+        if (data) setLivestream(data as LivestreamSettings)
+      } catch {}
+    })()
+  }, [])
+
   const liveUrl    = livestream?.youtube_url
   const replayUrl  = livestream?.replay_url
   const isLive     = livestream?.is_live ?? false

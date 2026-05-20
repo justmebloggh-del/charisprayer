@@ -1,16 +1,10 @@
-import { createPublicClient } from '@/utils/supabase/public'
+'use client'
 
-export const revalidate = 60
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { formatDate } from '@/lib/utils'
 import { BookOpen, Clock } from 'lucide-react'
 import type { BlogPost } from '@/lib/types'
-import type { Metadata } from 'next'
-
-export const metadata: Metadata = {
-  title: 'Devotionals',
-  description: 'Faith-building articles and devotionals from Charis Prayer Ministry.',
-}
 
 const FALLBACK: BlogPost[] = [
   { id: '1', title: 'The Power of Persistent Prayer', excerpt: 'Jesus taught us that men ought always to pray and not faint. Discover why persistence in prayer moves the heart of God and how to build a daily prayer habit that transforms your life.', content: '', category: 'Prayer', author: 'Rev. Emmanuel Oduro Cosby', status: 'published', views: 1840, created_at: new Date().toISOString(), updated_at: new Date().toISOString() },
@@ -26,17 +20,23 @@ const catColors: Record<string, string> = {
   Intercession: '#EF4444', Grace: '#C9A227', Worship: '#EC4899',
 }
 
-export default async function BlogPage() {
-  let posts: BlogPost[] = FALLBACK
+export default function BlogPage() {
+  const [posts, setPosts] = useState<BlogPost[]>(FALLBACK)
 
-  try {
-    const supabase = createPublicClient()
-    const result = await Promise.race([
-      supabase.from('blog_posts').select('*').eq('status', 'published').order('created_at', { ascending: false }).then((r: { data: BlogPost[] | null }) => r.data),
-      new Promise<null>(res => setTimeout(() => res(null), 1500)),
-    ])
-    if (result && result.length > 0) posts = result
-  } catch { /* use fallback */ }
+  useEffect(() => {
+    ;(async () => {
+      try {
+        const { createPublicClient } = await import('@/utils/supabase/public')
+        const supabase = createPublicClient()
+        const { data } = await supabase
+          .from('blog_posts')
+          .select('*')
+          .eq('status', 'published')
+          .order('created_at', { ascending: false })
+        if (data && data.length > 0) setPosts(data as BlogPost[])
+      } catch {}
+    })()
+  }, [])
 
   const [hero, ...rest] = posts
 

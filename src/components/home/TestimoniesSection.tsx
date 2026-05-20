@@ -1,3 +1,6 @@
+'use client'
+
+import { useState, useEffect } from 'react'
 import type { Testimony } from '@/lib/types'
 
 const FALLBACK: Testimony[] = [
@@ -18,10 +21,20 @@ const tagColors: Record<string, { bg: string; color: string }> = {
   Restoration:  { bg: 'rgba(236,72,153,0.12)',   color: '#F9A8D4' },
 }
 
-interface Props { testimonies?: Testimony[] }
+export default function TestimoniesSection() {
+  const [items, setItems] = useState<Testimony[]>(FALLBACK)
 
-export default function TestimoniesSection({ testimonies }: Props) {
-  const items = testimonies?.length ? testimonies : FALLBACK
+  useEffect(() => {
+    ;(async () => {
+      try {
+        const { createPublicClient } = await import('@/utils/supabase/public')
+        const { data } = await createPublicClient()
+          .from('testimonies').select('*').eq('status', 'approved')
+          .order('created_at', { ascending: false }).limit(6)
+        if (data && data.length > 0) setItems(data as Testimony[])
+      } catch {}
+    })()
+  }, [])
 
   return (
     <section className="section-spacing" style={{ background: 'var(--canvas)' }}>

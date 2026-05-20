@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Eye, X, Play } from 'lucide-react'
 import YouTubePlayer from '@/components/ui/YouTubePlayer'
 import type { Video } from '@/lib/types'
@@ -22,10 +22,22 @@ function getThumbnail(v: Video) {
   return id ? `https://img.youtube.com/vi/${id}/maxresdefault.jpg` : ''
 }
 
-interface Props { videos?: Video[] }
-
-export default function VideoSection({ videos = FALLBACK }: Props) {
+export default function VideoSection() {
+  const [videos, setVideos] = useState<Video[]>(FALLBACK)
   const [activeVideo, setActiveVideo] = useState<Video | null>(null)
+
+  useEffect(() => {
+    ;(async () => {
+      try {
+        const { createPublicClient } = await import('@/utils/supabase/public')
+        const { data } = await createPublicClient()
+          .from('videos').select('*').eq('archived', false)
+          .order('featured', { ascending: false })
+          .order('created_at', { ascending: false }).limit(6)
+        if (data && data.length > 0) setVideos(data as Video[])
+      } catch {}
+    })()
+  }, [])
   const [featured, ...rest] = videos
 
   function openVideo(v: Video) {

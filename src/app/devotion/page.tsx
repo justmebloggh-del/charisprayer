@@ -1,17 +1,11 @@
-import { createPublicClient } from '@/utils/supabase/public'
+'use client'
 
-export const revalidate = 60
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { BookHeart, Clock, BookOpen } from 'lucide-react'
 import { formatDate } from '@/lib/utils'
 import type { Devotion } from '@/lib/types'
-import type { Metadata } from 'next'
-
-export const metadata: Metadata = {
-  title: 'Daily Devotion',
-  description: 'Start each day with God — daily devotionals from Rev. Emmanuel Oduro Cosby and Charis Prayer Ministry.',
-}
 
 const FALLBACK: Devotion[] = [
   {
@@ -56,17 +50,23 @@ const FALLBACK: Devotion[] = [
   },
 ]
 
-export default async function DevotionPage() {
-  let devotions: Devotion[] = FALLBACK
+export default function DevotionPage() {
+  const [devotions, setDevotions] = useState<Devotion[]>(FALLBACK)
 
-  try {
-    const supabase = createPublicClient()
-    const result = await Promise.race([
-      supabase.from('devotions').select('*').eq('published', true).order('created_at', { ascending: false }).then((r: { data: Devotion[] | null }) => r.data),
-      new Promise<null>(res => setTimeout(() => res(null), 1500)),
-    ])
-    if (result && result.length > 0) devotions = result
-  } catch { /* use fallback */ }
+  useEffect(() => {
+    ;(async () => {
+      try {
+        const { createPublicClient } = await import('@/utils/supabase/public')
+        const supabase = createPublicClient()
+        const { data } = await supabase
+          .from('devotions')
+          .select('*')
+          .eq('published', true)
+          .order('created_at', { ascending: false })
+        if (data && data.length > 0) setDevotions(data as Devotion[])
+      } catch {}
+    })()
+  }, [])
 
   const [featured, ...rest] = devotions
 

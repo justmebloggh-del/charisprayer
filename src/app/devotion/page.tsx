@@ -82,7 +82,7 @@ export default function DevotionPage() {
           <span className="section-label">Daily Devotion</span>
           <h1 className="t-h1 font-display">Start Your Day with God</h1>
           <p className="t-body" style={{ maxWidth: '460px' }}>
-            Receive fresh inspiration, scripture, and prayerful reflection each morning from Charis Prayer Ministry.
+            Receive fresh inspiration, scripture, and prayerful reflection each morning from CHARIS PRAYER TIME Ministry.
           </p>
         </div>
 

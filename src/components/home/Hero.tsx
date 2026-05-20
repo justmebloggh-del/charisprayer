@@ -35,7 +35,7 @@ function LivePlaceholder({ channelId, thumbnailUrl }: { channelId?: string | nul
       <div style={{ position: 'relative', paddingBottom: '56.25%', background: '#000' }}>
         <iframe
           src={embedUrl}
-          title="Charis Prayer Live"
+          title="CHARIS PRAYER TIME Live"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
           style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', border: 'none' }}
@@ -62,7 +62,7 @@ function LivePlaceholder({ channelId, thumbnailUrl }: { channelId?: string | nul
 
         <div>
           <p style={{ fontFamily: "var(--font-playfair, 'Playfair Display', serif)", fontSize: 'clamp(1rem, 2.5vw, 1.375rem)', fontWeight: 700, color: '#fff', marginBottom: '0.375rem', textShadow: '0 1px 6px rgba(0,0,0,0.8)' }}>
-            Charis Prayer Time · 5AM–6AM BST (GMT+1)
+            CHARIS PRAYER TIME · 5AM–6AM BST (GMT+1)
           </p>
           <p style={{ fontSize: '0.8125rem', color: 'rgba(255,255,255,0.75)' }}>Monday · Wednesday · Thursday</p>
         </div>
@@ -121,7 +121,7 @@ export default function Hero() {
   const liveUrl    = livestream?.youtube_url
   const replayUrl  = livestream?.replay_url
   const isLive     = livestream?.is_live ?? false
-  const streamTitle = livestream?.title || 'Charis Prayer Time'
+  const streamTitle = livestream?.title || 'CHARIS PRAYER TIME'
 
   // Pick which URL to show: prefer live URL when is_live, else replay, else placeholder
   const activeUrl = isLive && isRealUrl(liveUrl) ? liveUrl!
@@ -150,7 +150,7 @@ export default function Hero() {
                 ? <span className="badge badge-live">LIVE NOW</span>
                 : <span style={{ fontSize: '0.75rem', fontWeight: 600, padding: '3px 10px', borderRadius: '999px', background: 'var(--elevated)', color: 'var(--text-3)', border: '1px solid var(--border)' }}>Watch &amp; Pray</span>
               }
-              <span style={{ fontSize: '0.8125rem', color: 'var(--text-3)' }}>Charis Prayer Time · 5AM–6AM BST</span>
+              <span style={{ fontSize: '0.8125rem', color: 'var(--text-3)' }}>CHARIS PRAYER TIME · 5AM–6AM BST</span>
             </motion.div>
 
             <motion.h1 {...fadeUp(0.07)} className="t-display font-display" style={{ maxWidth: '520px' }}>

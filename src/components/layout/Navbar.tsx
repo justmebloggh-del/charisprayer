@@ -62,10 +62,10 @@ export default function Navbar() {
           {/* Logo */}
           <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '0.625rem', flexShrink: 0, textDecoration: 'none' }}>
             <div style={{ width: '34px', height: '34px', borderRadius: '8px', overflow: 'hidden', border: '1px solid var(--border-gold)', flexShrink: 0 }}>
-              <Image src="/charislogo.jpg" alt="Charis Prayer" width={34} height={34} priority style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <Image src="/charislogo.jpg" alt="CHARIS PRAYER TIME" width={34} height={34} priority style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </div>
             <span style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700, fontSize: '1.0625rem', color: 'var(--text)', letterSpacing: '-0.01em' }}>
-              Charis Prayer
+              CHARIS PRAYER TIME
             </span>
           </Link>
 

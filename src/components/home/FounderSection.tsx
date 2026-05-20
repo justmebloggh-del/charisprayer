@@ -63,7 +63,7 @@ export default function FounderSection() {
                 he has led thousands into powerful encounters with the living God.
               </p>
               <p className="t-body">
-                Founded on the principle that prayer changes everything, Charis Prayer stands as a
+                Founded on the principle that prayer changes everything, CHARIS PRAYER TIME stands as a
                 global community where believers come together daily to seek the face of God, intercede
                 for nations, and experience the transforming grace of the Holy Spirit.
               </p>

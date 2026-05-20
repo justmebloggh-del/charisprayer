@@ -15,10 +15,10 @@ export default function LoginPage() {
       {/* Left panel — branding */}
       <div style={{ background: 'var(--surface)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '3rem 2rem', gap: '2rem', borderRight: '1px solid var(--border)' }}>
         <div style={{ width: '80px', height: '80px', borderRadius: '20px', overflow: 'hidden', border: '1px solid var(--border-gold)', boxShadow: 'var(--shadow-gold)' }}>
-          <Image src="/charislogo.jpg" alt="Charis Prayer" width={80} height={80} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          <Image src="/charislogo.jpg" alt="CHARIS PRAYER TIME" width={80} height={80} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </div>
         <div style={{ textAlign: 'center' }}>
-          <h1 style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700, fontSize: '1.75rem', color: 'var(--text)', marginBottom: '0.5rem' }}>Charis Prayer</h1>
+          <h1 style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700, fontSize: '1.75rem', color: 'var(--text)', marginBottom: '0.5rem' }}>CHARIS PRAYER TIME</h1>
           <p style={{ fontSize: '0.875rem', color: 'var(--gold)', fontStyle: 'italic' }}>Where Grace Meets Prayer</p>
         </div>
         <blockquote style={{ maxWidth: '280px', textAlign: 'center', fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontSize: '0.9375rem', color: 'var(--text-2)', lineHeight: 1.7 }}>
@@ -35,7 +35,7 @@ export default function LoginPage() {
         <div style={{ width: '100%', maxWidth: '400px' }}>
           <div style={{ marginBottom: '2.5rem' }}>
             <h2 style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700, fontSize: '1.75rem', color: 'var(--text)', marginBottom: '0.5rem' }}>Admin Sign In</h2>
-            <p style={{ fontSize: '0.875rem', color: 'var(--text-3)' }}>Sign in to manage the Charis Prayer platform.</p>
+            <p style={{ fontSize: '0.875rem', color: 'var(--text-3)' }}>Sign in to manage the CHARIS PRAYER TIME platform.</p>
           </div>
 
           <form action={action} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>

@@ -31,10 +31,10 @@ export default function Footer() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', gridColumn: 'span 1' }}>
             <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '0.625rem' }}>
               <div style={{ width: '40px', height: '40px', borderRadius: '10px', overflow: 'hidden', border: '1px solid var(--border-gold)', flexShrink: 0 }}>
-                <Image src="/charislogo.jpg" alt="Charis Prayer" width={40} height={40} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <Image src="/charislogo.jpg" alt="CHARIS PRAYER TIME" width={40} height={40} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
               <span style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700, fontSize: '1.0625rem', color: 'var(--text)' }}>
-                Charis Prayer
+                CHARIS PRAYER TIME
               </span>
             </Link>
 
@@ -127,7 +127,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div style={{ borderTop: '1px solid var(--border)', marginTop: '3rem', paddingTop: '1.5rem', display: 'flex', flexWrap: 'wrap', gap: '0.75rem', alignItems: 'center', justifyContent: 'space-between' }}>
           <p style={{ fontSize: '0.75rem', color: 'var(--text-3)' }}>
-            © {new Date().getFullYear()} Charis Prayer Ministry. All rights reserved.
+            © {new Date().getFullYear()} CHARIS PRAYER TIME Ministry. All rights reserved.
           </p>
           <p style={{ fontSize: '0.75rem', color: 'var(--text-3)' }}>
             Led by Rev. Emmanuel Cosby Oduro

@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Devotionals',
-  description: 'Faith-building articles and devotionals from Charis Prayer Ministry.',
+  description: 'Faith-building articles and devotionals from CHARIS PRAYER TIME Ministry.',
 }
 
 export default function BlogLayout({ children }: { children: React.ReactNode }) {

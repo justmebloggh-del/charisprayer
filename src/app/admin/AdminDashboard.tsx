@@ -78,7 +78,7 @@ export default function AdminDashboard({ prayers, testimonies, posts, audios, vi
         {/* Brand */}
         <div style={{ padding: '1.25rem 1.125rem', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div>
-            <p style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700, fontSize: '0.9375rem', color: 'var(--text)' }}>Charis Prayer</p>
+            <p style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700, fontSize: '0.9375rem', color: 'var(--text)' }}>CHARIS PRAYER TIME</p>
             <p style={{ fontSize: '0.6875rem', color: 'var(--text-3)', marginTop: '1px' }}>Admin Dashboard</p>
           </div>
           <button onClick={() => setSidebarOpen(false)} style={{ background: 'none', border: 'none', color: 'var(--text-3)', cursor: 'pointer', display: 'none', padding: '4px' }} className="sidebar-close-btn">

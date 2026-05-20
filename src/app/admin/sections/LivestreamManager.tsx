@@ -2,7 +2,7 @@
 
 import { useState, useRef } from 'react'
 import { createClient } from '@/utils/supabase/client'
-import { Radio, Save, Loader2, AlertCircle, CheckCircle2, Upload } from 'lucide-react'
+import { Radio, Save, Loader2, AlertCircle, CheckCircle2, Upload, ImageOff } from 'lucide-react'
 import type { LivestreamSettings } from '@/lib/types'
 import YouTubePlayer from '@/components/ui/YouTubePlayer'
 
@@ -33,6 +33,7 @@ export default function LivestreamManager({ initial }: Props) {
   const [error, setError] = useState('')
   const [preview, setPreview] = useState<'live' | 'replay' | null>(null)
   const [thumbUploading, setThumbUploading] = useState(false)
+  const [thumbError, setThumbError] = useState(false)
   const thumbInputRef = useRef<HTMLInputElement>(null)
 
   async function uploadThumbnail(file: File) {
@@ -136,7 +137,7 @@ export default function LivestreamManager({ initial }: Props) {
                 <input
                   className="input-field"
                   value={form.thumbnail_url}
-                  onChange={e => setForm(f => ({ ...f, thumbnail_url: e.target.value }))}
+                  onChange={e => { setForm(f => ({ ...f, thumbnail_url: e.target.value })); setThumbError(false) }}
                   placeholder="https://… or upload →"
                   style={{ flex: 1 }}
                 />
@@ -158,7 +159,18 @@ export default function LivestreamManager({ initial }: Props) {
                 </button>
               </div>
               {form.thumbnail_url && (
-                <img src={form.thumbnail_url} alt="Thumbnail preview" style={{ marginTop: '0.5rem', height: '80px', width: 'auto', borderRadius: 'var(--r-sm)', border: '1px solid var(--border)', objectFit: 'cover' }} />
+                thumbError ? (
+                  <div style={{ marginTop: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 0.75rem', borderRadius: 'var(--r-sm)', border: '1px solid var(--border)', background: 'var(--surface)', color: 'var(--text-3)', fontSize: '0.8125rem' }}>
+                    <ImageOff size={14} /> Preview unavailable — URL saved but image could not load
+                  </div>
+                ) : (
+                  <img
+                    src={form.thumbnail_url}
+                    alt="Thumbnail preview"
+                    onError={() => setThumbError(true)}
+                    style={{ marginTop: '0.5rem', height: '80px', width: 'auto', borderRadius: 'var(--r-sm)', border: '1px solid var(--border)', objectFit: 'cover' }}
+                  />
+                )
               )}
             </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.375rem', gridColumn: '1 / -1' }}>

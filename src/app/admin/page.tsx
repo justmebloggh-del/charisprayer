@@ -13,7 +13,7 @@ async function safe<T>(fn: () => Promise<T>, ms = 2000): Promise<T | null> {
 export default async function AdminPage() {
   const supabase = await createClient()
 
-  const [prayers, testimonies, posts, audios, videos, devotions, livestreamData] = await Promise.all([
+  const [prayers, testimonies, posts, audios, videos, devotions, livestreamData, scheduleData] = await Promise.all([
     safe(async () => { const { data } = await supabase.from('prayer_requests').select('*').order('created_at', { ascending: false }); return data ?? [] }),
     safe(async () => { const { data } = await supabase.from('testimonies').select('*').order('created_at', { ascending: false }); return data ?? [] }),
     safe(async () => { const { data } = await supabase.from('blog_posts').select('*').order('created_at', { ascending: false }); return data ?? [] }),
@@ -21,6 +21,7 @@ export default async function AdminPage() {
     safe(async () => { const { data } = await supabase.from('videos').select('*').order('created_at', { ascending: false }); return data ?? [] }),
     safe(async () => { const { data } = await supabase.from('devotions').select('*').order('created_at', { ascending: false }); return data ?? [] }),
     safe(async () => { const { data } = await supabase.from('livestream_settings').select('*').eq('id', 1).single(); return data ?? null }),
+    safe(async () => { const { data } = await supabase.from('schedule_items').select('*').order('sort_order', { ascending: true }); return data ?? [] }),
   ])
 
   return (
@@ -32,6 +33,7 @@ export default async function AdminPage() {
       videos={videos ?? []}
       devotions={devotions ?? []}
       livestream={livestreamData ?? null}
+      schedule={scheduleData ?? []}
     />
   )
 }

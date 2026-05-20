@@ -20,7 +20,9 @@ export default function HomePage() {
         <AudioSection />
       </Suspense>
 
-      <ScheduleSection />
+      <Suspense fallback={<Shell height={400} />}>
+        <ScheduleSection />
+      </Suspense>
 
       <Suspense fallback={<Shell height={460} />}>
         <VideoSection />

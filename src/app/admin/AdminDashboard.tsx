@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { LogOut, HandHeart, Star, BookOpen, Music2, Video, BarChart3, Radio, BookHeart, Menu, X } from 'lucide-react'
+import { LogOut, HandHeart, Star, BookOpen, Music2, Video, BarChart3, Radio, BookHeart, Menu, X, CalendarDays } from 'lucide-react'
 import PrayerRequests from './sections/PrayerRequests'
 import Testimonies from './sections/Testimonies'
 import BlogManager from './sections/BlogManager'
@@ -10,7 +10,8 @@ import VideoManager from './sections/VideoManager'
 import Analytics from './sections/Analytics'
 import LivestreamManager from './sections/LivestreamManager'
 import DevotionManager from './sections/DevotionManager'
-import type { PrayerRequest, Testimony, BlogPost, Audio, Video as VideoType, Devotion, LivestreamSettings } from '@/lib/types'
+import ScheduleManager from './sections/ScheduleManager'
+import type { PrayerRequest, Testimony, BlogPost, Audio, Video as VideoType, Devotion, LivestreamSettings, ScheduleItem } from '@/lib/types'
 
 export interface Props {
   prayers: PrayerRequest[]
@@ -20,20 +21,22 @@ export interface Props {
   videos: VideoType[]
   devotions: Devotion[]
   livestream: LivestreamSettings | null
+  schedule: ScheduleItem[]
 }
 
 const tabs = [
-  { id: 'analytics',    label: 'Analytics',      icon: BarChart3   },
-  { id: 'livestream',   label: 'Livestream',     icon: Radio       },
-  { id: 'prayers',      label: 'Prayers',        icon: HandHeart   },
-  { id: 'testimonies',  label: 'Testimonies',    icon: Star        },
-  { id: 'devotions',    label: 'Devotions',      icon: BookHeart   },
-  { id: 'blog',         label: 'Blog',           icon: BookOpen    },
-  { id: 'audio',        label: 'Audio',          icon: Music2      },
-  { id: 'video',        label: 'Videos',         icon: Video       },
+  { id: 'analytics',    label: 'Analytics',      icon: BarChart3     },
+  { id: 'livestream',   label: 'Livestream',     icon: Radio         },
+  { id: 'schedule',     label: 'Schedule',       icon: CalendarDays  },
+  { id: 'prayers',      label: 'Prayers',        icon: HandHeart     },
+  { id: 'testimonies',  label: 'Testimonies',    icon: Star          },
+  { id: 'devotions',    label: 'Devotions',      icon: BookHeart     },
+  { id: 'blog',         label: 'Blog',           icon: BookOpen      },
+  { id: 'audio',        label: 'Audio',          icon: Music2        },
+  { id: 'video',        label: 'Videos',         icon: Video         },
 ]
 
-export default function AdminDashboard({ prayers, testimonies, posts, audios, videos, devotions, livestream }: Props) {
+export default function AdminDashboard({ prayers, testimonies, posts, audios, videos, devotions, livestream, schedule }: Props) {
   const [active, setActive] = useState('analytics')
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
@@ -115,6 +118,7 @@ export default function AdminDashboard({ prayers, testimonies, posts, audios, vi
 
         {active === 'analytics'   && <Analytics    prayers={prayers} testimonies={testimonies} posts={posts} audios={audios} videos={videos} devotions={devotions} />}
         {active === 'livestream'  && <LivestreamManager initial={livestream} />}
+        {active === 'schedule'    && <ScheduleManager initial={schedule} />}
         {active === 'prayers'     && <PrayerRequests initial={prayers} />}
         {active === 'testimonies' && <Testimonies initial={testimonies} />}
         {active === 'devotions'   && <DevotionManager initial={devotions} />}

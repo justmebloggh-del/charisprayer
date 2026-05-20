@@ -1,14 +1,30 @@
-const schedule = [
-  { day: 'Monday',    short: 'MON', time: '6:00 AM', theme: 'Praise & Worship',       icon: '🎵', color: '#F59E0B' },
-  { day: 'Tuesday',   short: 'TUE', time: '6:00 AM', theme: 'Faith Declarations',     icon: '🗡️', color: '#EF4444' },
-  { day: 'Wednesday', short: 'WED', time: '6:00 AM', theme: 'Intercession',            icon: '🌍', color: '#3B82F6' },
-  { day: 'Thursday',  short: 'THU', time: '6:00 AM', theme: 'Healing & Restoration',  icon: '✨', color: '#8B5CF6' },
-  { day: 'Friday',    short: 'FRI', time: '6:00 AM', theme: 'Breakthrough Prayer',    icon: '⚡', color: '#EC4899' },
-  { day: 'Saturday',  short: 'SAT', time: '8:00 AM', theme: 'Family & Nations',       icon: '🏡', color: '#10B981' },
-  { day: 'Sunday',    short: 'SUN', time: '9:00 AM', theme: 'Thanksgiving & Worship', icon: '🙌', color: '#C9A227' },
+import { createClient } from '@/utils/supabase/server'
+import type { ScheduleItem } from '@/lib/types'
+
+const FALLBACK: Omit<ScheduleItem, 'id' | 'updated_at'>[] = [
+  { day: 'Monday',    short: 'MON', sort_order: 1, time_start: '5:00 AM', time_end: '6:00 AM', theme: 'Praise & Worship',       icon: '🎵', color: '#F59E0B' },
+  { day: 'Tuesday',   short: 'TUE', sort_order: 2, time_start: '5:00 AM', time_end: '6:00 AM', theme: 'Faith Declarations',     icon: '🗡️', color: '#EF4444' },
+  { day: 'Wednesday', short: 'WED', sort_order: 3, time_start: '5:00 AM', time_end: '6:00 AM', theme: 'Intercession',           icon: '🌍', color: '#3B82F6' },
+  { day: 'Thursday',  short: 'THU', sort_order: 4, time_start: '5:00 AM', time_end: '6:00 AM', theme: 'Healing & Restoration',  icon: '✨', color: '#8B5CF6' },
+  { day: 'Friday',    short: 'FRI', sort_order: 5, time_start: '5:00 AM', time_end: '6:00 AM', theme: 'Breakthrough Prayer',    icon: '⚡', color: '#EC4899' },
+  { day: 'Saturday',  short: 'SAT', sort_order: 6, time_start: '5:00 AM', time_end: '6:00 AM', theme: 'Family & Nations',       icon: '🏡', color: '#10B981' },
+  { day: 'Sunday',    short: 'SUN', sort_order: 7, time_start: '5:00 AM', time_end: '6:00 AM', theme: 'Thanksgiving & Worship', icon: '🙌', color: '#C9A227' },
 ]
 
-export default function ScheduleSection() {
+export default async function ScheduleSection() {
+  let schedule: (ScheduleItem | Omit<ScheduleItem, 'id' | 'updated_at'>)[] = FALLBACK
+
+  try {
+    const supabase = await createClient()
+    const { data } = await supabase
+      .from('schedule_items')
+      .select('*')
+      .order('sort_order', { ascending: true })
+    if (data && data.length > 0) schedule = data
+  } catch {
+    // table may not exist yet — fall through to static fallback
+  }
+
   const today = new Date().toLocaleDateString('en-US', { weekday: 'long' })
 
   return (
@@ -22,7 +38,6 @@ export default function ScheduleSection() {
           </p>
         </div>
 
-        {/* Mobile: horizontal scroll. Desktop: grid */}
         <div className="schedule-grid" style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fill, minmax(155px, 1fr))',
@@ -71,7 +86,7 @@ export default function ScheduleSection() {
                   padding: '0.25rem 0.625rem', borderRadius: 'var(--r-full)',
                   border: `1px solid ${isToday ? 'var(--border-gold)' : 'var(--border)'}`,
                 }}>
-                  {s.time} WAT
+                  {s.time_start} – {s.time_end} WAT
                 </div>
 
                 {isToday && (

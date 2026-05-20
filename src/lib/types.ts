@@ -100,6 +100,19 @@ export interface Devotion {
   updated_at: string
 }
 
+export interface ScheduleItem {
+  id: string
+  day: string
+  short: string
+  sort_order: number
+  time_start: string
+  time_end: string
+  theme: string
+  icon: string
+  color: string
+  updated_at: string
+}
+
 export interface LivestreamSettings {
   id: number
   youtube_url?: string

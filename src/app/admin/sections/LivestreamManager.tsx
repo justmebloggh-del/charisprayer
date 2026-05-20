@@ -2,6 +2,7 @@
 
 import { useState, useRef } from 'react'
 import { createClient } from '@/utils/supabase/client'
+import { uploadFile } from '@/utils/uploadFile'
 import { Radio, Save, Loader2, AlertCircle, CheckCircle2, Upload, ImageOff } from 'lucide-react'
 import type { LivestreamSettings } from '@/lib/types'
 import YouTubePlayer from '@/components/ui/YouTubePlayer'
@@ -39,13 +40,9 @@ export default function LivestreamManager({ initial }: Props) {
   async function uploadThumbnail(file: File) {
     setThumbUploading(true)
     try {
-      const supabase = createClient()
-      const ext = file.name.split('.').pop()
-      const name = `livestream/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`
-      const { error: upErr } = await supabase.storage.from('video-files').upload(name, file, { cacheControl: '31536000', upsert: false })
-      if (upErr) throw upErr
-      const { data: { publicUrl } } = supabase.storage.from('video-files').getPublicUrl(name)
-      setForm(f => ({ ...f, thumbnail_url: publicUrl }))
+      const url = await uploadFile(file, { folder: 'charisprayer/livestream' })
+      setForm(f => ({ ...f, thumbnail_url: url }))
+      setThumbError(false)
     } catch (err: unknown) {
       setError((err as Error).message ?? 'Thumbnail upload failed')
     } finally {

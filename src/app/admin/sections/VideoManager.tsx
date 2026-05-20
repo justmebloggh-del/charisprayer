@@ -45,7 +45,7 @@ export default function VideoManager({ initial }: { initial: VideoType[] }) {
     if (!file) return
     setUploading(true)
     try {
-      const url = await uploadFile(file, { bucket: 'video-files', folder: 'thumbs', onProgress: setUploadProgress })
+      const url = await uploadFile(file, { folder: 'charisprayer/thumbs', onProgress: setUploadProgress })
       setForm(f => ({ ...f, thumbnail_url: url }))
     } catch (err: unknown) {
       setError((err as Error).message ?? 'Thumbnail upload failed')
@@ -63,7 +63,7 @@ export default function VideoManager({ initial }: { initial: VideoType[] }) {
     if (uploadMode === 'file' && pendingFile) {
       setUploading(true); setUploadProgress(0)
       try {
-        videoUrl = await uploadFile(pendingFile, { bucket: 'video-files', folder: 'videos', onProgress: setUploadProgress })
+        videoUrl = await uploadFile(pendingFile, { folder: 'charisprayer/videos', onProgress: setUploadProgress })
       } catch (err: unknown) {
         setError((err as Error).message ?? 'File upload failed')
         setSaving(false); setUploading(false); return

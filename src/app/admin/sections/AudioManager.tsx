@@ -64,7 +64,7 @@ export default function AudioManager({ initial }: { initial: AudioTrack[] }) {
     if (!file) return
     setUploading(true)
     try {
-      const url = await uploadFile(file, { bucket: 'audio-files', folder: 'covers', onProgress: setUploadProgress })
+      const url = await uploadFile(file, { folder: 'charisprayer/covers', onProgress: setUploadProgress })
       setForm(f => ({ ...f, cover_url: url }))
     } catch (err: unknown) {
       setError((err as Error).message ?? 'Cover upload failed')
@@ -85,7 +85,7 @@ export default function AudioManager({ initial }: { initial: AudioTrack[] }) {
     if (uploadMode === 'file' && pendingFile) {
       setUploading(true); setUploadProgress(0)
       try {
-        fileUrl = await uploadFile(pendingFile, { bucket: 'audio-files', folder: 'tracks', onProgress: setUploadProgress })
+        fileUrl = await uploadFile(pendingFile, { folder: 'charisprayer/tracks', onProgress: setUploadProgress })
       } catch (err: unknown) {
         setError((err as Error).message ?? 'File upload failed')
         setSaving(false); setUploading(false); return

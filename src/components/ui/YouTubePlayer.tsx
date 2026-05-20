@@ -34,7 +34,7 @@ export default function YouTubePlayer({ url, title = 'Video', thumbnail, rounded
   const radius = rounded ? 'var(--r-lg)' : '0'
 
   return (
-    <div style={{ position: 'relative', paddingBottom: '56.25%', background: '#000', borderRadius: radius, overflow: 'hidden' }}>
+    <div style={{ position: 'relative', paddingBottom: '56.25%', background: 'var(--canvas)', borderRadius: radius, overflow: 'hidden' }}>
       {playing ? (
         isDirect ? (
           <video
@@ -70,12 +70,12 @@ export default function YouTubePlayer({ url, title = 'Video', thumbnail, rounded
             />
           )}
           {/* Gradient overlay */}
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.08) 60%)' }} />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(11,17,32,0.60) 0%, rgba(11,17,32,0.05) 60%)' }} />
           {/* Play button */}
           <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <div style={{
               width: '68px', height: '68px', borderRadius: '50%',
-              background: 'rgba(201,162,39,0.95)',
+              background: 'rgba(79,70,229,0.95)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
               transition: 'transform 0.18s ease, box-shadow 0.18s ease',

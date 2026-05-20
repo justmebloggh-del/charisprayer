@@ -49,7 +49,7 @@ function AudioCard({ track, queue }: { track: AudioTrack; queue: AudioTrack[] })
         cursor: 'pointer',
         borderColor: isActive ? 'var(--border-gold)' : undefined,
         boxShadow: isActive ? 'var(--shadow-gold)' : undefined,
-        background: isActive ? 'rgba(201,162,39,0.04)' : undefined,
+        background: isActive ? 'rgba(79,70,229,0.04)' : undefined,
         transition: 'all 0.2s ease',
       }}
     >
@@ -82,7 +82,7 @@ function AudioCard({ track, queue }: { track: AudioTrack; queue: AudioTrack[] })
         >
           <div style={{
             width: '48px', height: '48px', borderRadius: '50%',
-            background: isThisPlaying ? 'var(--gold)' : 'rgba(201,162,39,0.9)',
+            background: isThisPlaying ? 'var(--gold)' : 'rgba(79,70,229,0.9)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             boxShadow: '0 4px 16px rgba(0,0,0,0.5)',
             transform: isThisPlaying ? 'scale(1)' : 'scale(0.85)',

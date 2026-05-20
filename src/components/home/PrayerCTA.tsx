@@ -43,7 +43,7 @@ export default function PrayerCTA() {
 
           {/* Visual card */}
           <div style={{
-            background: 'linear-gradient(135deg, var(--card), rgba(201,162,39,0.04))',
+            background: 'linear-gradient(135deg, var(--card), rgba(79,70,229,0.04))',
             border: '1px solid var(--border-gold)',
             borderRadius: 'var(--r-xl)',
             padding: 'clamp(2rem, 4vw, 3rem)',

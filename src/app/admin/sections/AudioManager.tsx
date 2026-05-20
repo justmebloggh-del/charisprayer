@@ -187,11 +187,11 @@ export default function AudioManager({ initial }: { initial: AudioTrack[] }) {
                     style={{
                       border: '2px dashed var(--border-gold)', borderRadius: 'var(--r)',
                       padding: '1.5rem', textAlign: 'center', cursor: 'pointer',
-                      background: pendingFile ? 'rgba(201,162,39,0.04)' : 'var(--surface)',
+                      background: pendingFile ? 'rgba(79,70,229,0.04)' : 'var(--surface)',
                       transition: 'background 0.15s',
                     }}
-                    onMouseEnter={e => (e.currentTarget.style.background = 'rgba(201,162,39,0.06)')}
-                    onMouseLeave={e => (e.currentTarget.style.background = pendingFile ? 'rgba(201,162,39,0.04)' : 'var(--surface)')}
+                    onMouseEnter={e => (e.currentTarget.style.background = 'rgba(79,70,229,0.06)')}
+                    onMouseLeave={e => (e.currentTarget.style.background = pendingFile ? 'rgba(79,70,229,0.04)' : 'var(--surface)')}
                   >
                     {pendingFile ? (
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.625rem' }}>

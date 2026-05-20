@@ -54,7 +54,7 @@ export default function Navbar() {
         position: 'sticky', top: 0, zIndex: 50,
         transition: 'background 0.3s ease, border-color 0.3s ease',
         ...(scrolled
-          ? { background: 'rgba(9,9,11,0.92)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', borderBottom: '1px solid rgba(255,255,255,0.06)' }
+          ? { background: 'rgba(11,17,32,0.92)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', borderBottom: '1px solid rgba(255,255,255,0.06)' }
           : { background: 'transparent', borderBottom: '1px solid transparent' }),
       }}>
         <nav className="site-container" style={{ display: 'flex', alignItems: 'center', height: '66px', gap: '1.5rem' }}>

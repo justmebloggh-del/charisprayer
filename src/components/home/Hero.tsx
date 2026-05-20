@@ -32,7 +32,7 @@ function LivePlaceholder({ channelId, thumbnailUrl }: { channelId?: string | nul
 
   if (playing && embedUrl) {
     return (
-      <div style={{ position: 'relative', paddingBottom: '56.25%', background: '#000' }}>
+      <div style={{ position: 'relative', paddingBottom: '56.25%', background: 'var(--canvas)' }}>
         <iframe
           src={embedUrl}
           title="CHARIS PRAYER TIME Live"
@@ -56,7 +56,7 @@ function LivePlaceholder({ channelId, thumbnailUrl }: { channelId?: string | nul
       overflow: 'hidden',
     }}>
       {/* Dark overlay */}
-      <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.55) 100%)' }} />
+      <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(11,17,32,0.78) 0%, rgba(11,17,32,0.55) 100%)' }} />
       {/* All content above the overlay */}
       <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.25rem', width: '100%' }}>
 
@@ -136,7 +136,7 @@ export default function Hero() {
       <div style={{
         position: 'absolute', top: '5%', left: '50%', transform: 'translateX(-50%)',
         width: 'min(600px, 80vw)', height: '280px', borderRadius: '50%',
-        background: 'radial-gradient(ellipse at center, rgba(201,162,39,0.05) 0%, transparent 70%)',
+        background: 'radial-gradient(ellipse at center, rgba(79,70,229,0.05) 0%, transparent 70%)',
         pointerEvents: 'none',
       }} />
 
@@ -199,7 +199,7 @@ export default function Hero() {
             <div style={{
               position: 'absolute', inset: '-1px',
               borderRadius: 'calc(var(--r-xl) + 1px)',
-              background: 'linear-gradient(135deg, rgba(201,162,39,0.3), transparent 50%, rgba(201,162,39,0.18))',
+              background: 'linear-gradient(135deg, rgba(79,70,229,0.3), transparent 50%, rgba(79,70,229,0.18))',
               zIndex: 0,
             }} />
 
@@ -213,7 +213,7 @@ export default function Hero() {
                 <div style={{
                   position: 'absolute', top: '0.875rem', left: '0.875rem', zIndex: 10,
                   display: 'flex', alignItems: 'center', gap: '0.45rem',
-                  background: 'rgba(0,0,0,0.78)', backdropFilter: 'blur(8px)',
+                  background: 'rgba(11,17,32,0.88)', backdropFilter: 'blur(12px)',
                   padding: '0.3rem 0.7rem', borderRadius: '999px',
                   border: '1px solid rgba(239,68,68,0.3)', pointerEvents: 'none',
                 }}>

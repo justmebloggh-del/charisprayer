@@ -17,14 +17,14 @@ export default function FounderSection() {
               position: 'absolute',
               width: 'min(340px, 90%)', height: 'min(340px, 90%)',
               borderRadius: '50%',
-              border: '1px solid rgba(201,162,39,0.2)',
+              border: '1px solid rgba(79,70,229,0.2)',
               top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
             }} />
             <div style={{
               position: 'absolute',
               width: 'min(300px, 80%)', height: 'min(300px, 80%)',
               borderRadius: '50%',
-              border: '1px solid rgba(201,162,39,0.1)',
+              border: '1px solid rgba(79,70,229,0.1)',
               top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
             }} />
 
@@ -33,7 +33,7 @@ export default function FounderSection() {
               borderRadius: '50%',
               overflow: 'hidden',
               border: '3px solid var(--border-gold)',
-              boxShadow: '0 0 60px rgba(201,162,39,0.15)',
+              boxShadow: '0 0 60px rgba(79,70,229,0.15)',
               position: 'relative',
               zIndex: 1,
             }}>

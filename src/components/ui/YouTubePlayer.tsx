@@ -16,6 +16,10 @@ interface Props {
   rounded?: boolean
 }
 
+function isDirectFile(url: string) {
+  return /\.(mp4|webm|mov|m4v|ogg)(\?|$)/i.test(url)
+}
+
 export default function YouTubePlayer({ url, title = 'Video', thumbnail, rounded = true }: Props) {
   const [playing, setPlaying] = useState(false)
   const ytId = getYouTubeId(url)
@@ -23,12 +27,22 @@ export default function YouTubePlayer({ url, title = 'Video', thumbnail, rounded
   const embedSrc = ytId
     ? `https://www.youtube.com/embed/${ytId}?autoplay=1&rel=0&modestbranding=1`
     : url.includes('channel=') ? `${url}&autoplay=1&mute=0` : url
+  const isDirect = isDirectFile(url)
 
   const radius = rounded ? 'var(--r-lg)' : '0'
 
   return (
     <div style={{ position: 'relative', paddingBottom: '56.25%', background: '#000', borderRadius: radius, overflow: 'hidden' }}>
       {playing ? (
+        isDirect ? (
+          <video
+            src={url}
+            title={title}
+            controls
+            autoPlay
+            style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 'none' }}
+          />
+        ) : (
         <iframe
           src={embedSrc}
           title={title}
@@ -37,6 +51,7 @@ export default function YouTubePlayer({ url, title = 'Video', thumbnail, rounded
           loading="lazy"
           style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 'none' }}
         />
+        )
       ) : (
         <button
           onClick={() => setPlaying(true)}

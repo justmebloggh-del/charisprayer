@@ -1,8 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { createClient } from '@/utils/supabase/client'
-import { Radio, Save, Loader2, AlertCircle, CheckCircle2 } from 'lucide-react'
+import { Radio, Save, Loader2, AlertCircle, CheckCircle2, Upload } from 'lucide-react'
 import type { LivestreamSettings } from '@/lib/types'
 import YouTubePlayer from '@/components/ui/YouTubePlayer'
 
@@ -32,6 +32,25 @@ export default function LivestreamManager({ initial }: Props) {
   const [saved, setSaved] = useState(false)
   const [error, setError] = useState('')
   const [preview, setPreview] = useState<'live' | 'replay' | null>(null)
+  const [thumbUploading, setThumbUploading] = useState(false)
+  const thumbInputRef = useRef<HTMLInputElement>(null)
+
+  async function uploadThumbnail(file: File) {
+    setThumbUploading(true)
+    try {
+      const supabase = createClient()
+      const ext = file.name.split('.').pop()
+      const name = `livestream/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`
+      const { error: upErr } = await supabase.storage.from('video-files').upload(name, file, { cacheControl: '31536000', upsert: false })
+      if (upErr) throw upErr
+      const { data: { publicUrl } } = supabase.storage.from('video-files').getPublicUrl(name)
+      setForm(f => ({ ...f, thumbnail_url: publicUrl }))
+    } catch (err: unknown) {
+      setError((err as Error).message ?? 'Thumbnail upload failed')
+    } finally {
+      setThumbUploading(false)
+    }
+  }
 
   function field(label: string, node: React.ReactNode) {
     return (
@@ -111,7 +130,37 @@ export default function LivestreamManager({ initial }: Props) {
           {field('YouTube Channel ID', <input className="input-field" value={form.channel_id} onChange={e => setForm(f => ({ ...f, channel_id: e.target.value }))} placeholder="UCxxxxxxxxxxxx" />)}
           {field('Live YouTube URL', <input className="input-field" value={form.youtube_url} onChange={e => setForm(f => ({ ...f, youtube_url: e.target.value }))} placeholder="https://youtube.com/live/..." />)}
           {field('Replay / Featured Video URL', <input className="input-field" value={form.replay_url} onChange={e => setForm(f => ({ ...f, replay_url: e.target.value }))} placeholder="https://youtube.com/watch?v=..." />)}
-          {field('Custom Thumbnail URL', <input className="input-field" value={form.thumbnail_url} onChange={e => setForm(f => ({ ...f, thumbnail_url: e.target.value }))} placeholder="https://… (auto-detected if blank)" />)}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.375rem' }}>
+              <label className="form-label">Custom Thumbnail</label>
+              <div style={{ display: 'flex', gap: '0.5rem' }}>
+                <input
+                  className="input-field"
+                  value={form.thumbnail_url}
+                  onChange={e => setForm(f => ({ ...f, thumbnail_url: e.target.value }))}
+                  placeholder="https://… or upload →"
+                  style={{ flex: 1 }}
+                />
+                <input
+                  ref={thumbInputRef}
+                  type="file"
+                  accept="image/*"
+                  style={{ display: 'none' }}
+                  onChange={e => { const f = e.target.files?.[0]; if (f) uploadThumbnail(f) }}
+                />
+                <button
+                  type="button"
+                  onClick={() => thumbInputRef.current?.click()}
+                  disabled={thumbUploading}
+                  className="btn btn-ghost btn-sm"
+                  title="Upload thumbnail from computer"
+                >
+                  {thumbUploading ? <Loader2 size={14} style={{ animation: 'spin 1s linear infinite' }} /> : <Upload size={14} />}
+                </button>
+              </div>
+              {form.thumbnail_url && (
+                <img src={form.thumbnail_url} alt="Thumbnail preview" style={{ marginTop: '0.5rem', height: '80px', width: 'auto', borderRadius: 'var(--r-sm)', border: '1px solid var(--border)', objectFit: 'cover' }} />
+              )}
+            </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.375rem', gridColumn: '1 / -1' }}>
             <label className="form-label">Stream Description</label>
             <textarea className="input-field" rows={2} value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))} placeholder="Short description shown below the player…" />

@@ -108,7 +108,7 @@ export default function VideoSection() {
               />
               <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(11,17,32,0.65) 0%, transparent 55%)' }} />
               <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: 'rgba(79,70,229,0.95)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 8px 28px rgba(0,0,0,0.5)', transition: 'transform 0.2s ease' }} className="play-circle">
+                <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: 'rgba(201,162,39,0.95)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 8px 28px rgba(0,0,0,0.5)', transition: 'transform 0.2s ease' }} className="play-circle">
                   <Play size={24} fill="#000" color="#000" style={{ marginLeft: '3px' }} />
                 </div>
               </div>
@@ -141,13 +141,13 @@ export default function VideoSection() {
                   />
                   <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(11,17,32,0.55) 0%, transparent 60%)' }} />
                   <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <div style={{ width: '50px', height: '50px', borderRadius: '50%', background: 'rgba(79,70,229,0.95)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 6px 20px rgba(0,0,0,0.5)', transition: 'transform 0.2s ease' }} className="play-circle">
+                    <div style={{ width: '50px', height: '50px', borderRadius: '50%', background: 'rgba(201,162,39,0.95)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 6px 20px rgba(0,0,0,0.5)', transition: 'transform 0.2s ease' }} className="play-circle">
                       <Play size={18} fill="#000" color="#000" style={{ marginLeft: '2px' }} />
                     </div>
                   </div>
                   {v.is_live && <span className="badge badge-live" style={{ position: 'absolute', top: '0.5rem', left: '0.5rem', fontSize: '0.5625rem' }}>LIVE</span>}
                   {activeVideo?.id === v.id && (
-                    <div style={{ position: 'absolute', inset: 0, background: 'rgba(79,70,229,0.15)', border: '2px solid var(--gold)', borderRadius: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <div style={{ position: 'absolute', inset: 0, background: 'rgba(201,162,39,0.15)', border: '2px solid var(--gold)', borderRadius: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                       <span style={{ fontSize: '0.625rem', fontWeight: 700, color: 'var(--gold)', background: 'rgba(11,17,32,0.88)', padding: '3px 8px', borderRadius: '4px' }}>NOW PLAYING</span>
                     </div>
                   )}

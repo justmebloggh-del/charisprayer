@@ -108,7 +108,7 @@ export default function DevotionPage() {
                     </blockquote>
                   </div>
                 )}
-                <div style={{ position: 'absolute', top: '1rem', left: '1rem', background: 'rgba(79,70,229,0.9)', padding: '4px 12px', borderRadius: '999px' }}>
+                <div style={{ position: 'absolute', top: '1rem', left: '1rem', background: 'rgba(201,162,39,0.9)', padding: '4px 12px', borderRadius: '999px' }}>
                   <span style={{ fontSize: '0.625rem', fontWeight: 700, color: '#000', letterSpacing: '0.08em' }}>TODAY&apos;S DEVOTION</span>
                 </div>
               </div>

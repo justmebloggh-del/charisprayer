@@ -5,7 +5,7 @@ const schedule = [
   { day: 'Thursday',  short: 'THU', time: '6:00 AM', theme: 'Healing & Restoration',  icon: '✨', color: '#8B5CF6' },
   { day: 'Friday',    short: 'FRI', time: '6:00 AM', theme: 'Breakthrough Prayer',    icon: '⚡', color: '#EC4899' },
   { day: 'Saturday',  short: 'SAT', time: '8:00 AM', theme: 'Family & Nations',       icon: '🏡', color: '#10B981' },
-  { day: 'Sunday',    short: 'SUN', time: '9:00 AM', theme: 'Thanksgiving & Worship', icon: '🙌', color: '#4F46E5' },
+  { day: 'Sunday',    short: 'SUN', time: '9:00 AM', theme: 'Thanksgiving & Worship', icon: '🙌', color: '#C9A227' },
 ]
 
 export default function ScheduleSection() {
@@ -42,7 +42,7 @@ export default function ScheduleSection() {
                   textAlign: 'center',
                   alignItems: 'center',
                   borderColor: isToday ? 'var(--border-gold)' : undefined,
-                  background: isToday ? 'linear-gradient(135deg, rgba(79,70,229,0.06), rgba(79,70,229,0.02))' : undefined,
+                  background: isToday ? 'linear-gradient(135deg, rgba(201,162,39,0.06), rgba(201,162,39,0.02))' : undefined,
                   boxShadow: isToday ? 'var(--shadow-gold)' : undefined,
                   position: 'relative',
                   overflow: 'hidden',

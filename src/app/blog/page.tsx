@@ -17,7 +17,7 @@ const FALLBACK: BlogPost[] = [
 
 const catColors: Record<string, string> = {
   Prayer: '#F59E0B', Faith: '#3B82F6', Healing: '#10B981',
-  Intercession: '#EF4444', Grace: '#818CF8', Worship: '#EC4899',
+  Intercession: '#EF4444', Grace: '#F0D878', Worship: '#EC4899',
 }
 
 export default function BlogPage() {

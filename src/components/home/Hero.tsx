@@ -136,7 +136,7 @@ export default function Hero() {
       <div style={{
         position: 'absolute', top: '5%', left: '50%', transform: 'translateX(-50%)',
         width: 'min(600px, 80vw)', height: '280px', borderRadius: '50%',
-        background: 'radial-gradient(ellipse at center, rgba(79,70,229,0.05) 0%, transparent 70%)',
+        background: 'radial-gradient(ellipse at center, rgba(201,162,39,0.05) 0%, transparent 70%)',
         pointerEvents: 'none',
       }} />
 
@@ -199,7 +199,7 @@ export default function Hero() {
             <div style={{
               position: 'absolute', inset: '-1px',
               borderRadius: 'calc(var(--r-xl) + 1px)',
-              background: 'linear-gradient(135deg, rgba(79,70,229,0.3), transparent 50%, rgba(79,70,229,0.18))',
+              background: 'linear-gradient(135deg, rgba(201,162,39,0.3), transparent 50%, rgba(201,162,39,0.18))',
               zIndex: 0,
             }} />
 

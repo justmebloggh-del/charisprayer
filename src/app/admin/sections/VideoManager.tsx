@@ -148,11 +148,11 @@ export default function VideoManager({ initial }: { initial: VideoType[] }) {
                     style={{
                       border: '2px dashed var(--border-gold)', borderRadius: 'var(--r)',
                       padding: '1.5rem', textAlign: 'center', cursor: 'pointer',
-                      background: pendingFile ? 'rgba(79,70,229,0.04)' : 'var(--surface)',
+                      background: pendingFile ? 'rgba(201,162,39,0.04)' : 'var(--surface)',
                       transition: 'background 0.15s',
                     }}
-                    onMouseEnter={e => (e.currentTarget.style.background = 'rgba(79,70,229,0.06)')}
-                    onMouseLeave={e => (e.currentTarget.style.background = pendingFile ? 'rgba(79,70,229,0.04)' : 'var(--surface)')}
+                    onMouseEnter={e => (e.currentTarget.style.background = 'rgba(201,162,39,0.06)')}
+                    onMouseLeave={e => (e.currentTarget.style.background = pendingFile ? 'rgba(201,162,39,0.04)' : 'var(--surface)')}
                   >
                     {pendingFile ? (
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.625rem' }}>
@@ -237,7 +237,7 @@ export default function VideoManager({ initial }: { initial: VideoType[] }) {
               <div style={{ width: '100%', height: '140px', background: 'var(--surface)', position: 'relative', overflow: 'hidden' }}>
                 {thumb && <img src={thumb} alt={v.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />}
                 {v.is_live && <span className="badge badge-live" style={{ position: 'absolute', top: '0.5rem', left: '0.5rem', fontSize: '0.5625rem' }}>LIVE</span>}
-                {isDirectFile(v.youtube_url) && <span className="badge badge-surface" style={{ position: 'absolute', top: '0.5rem', right: '0.5rem', fontSize: '0.5625rem', background: 'rgba(79,70,229,0.9)', color: '#000' }}>Uploaded</span>}
+                {isDirectFile(v.youtube_url) && <span className="badge badge-surface" style={{ position: 'absolute', top: '0.5rem', right: '0.5rem', fontSize: '0.5625rem', background: 'rgba(201,162,39,0.9)', color: '#000' }}>Uploaded</span>}
                 {v.archived && <span className="badge badge-surface" style={{ position: 'absolute', top: '0.5rem', right: '0.5rem', fontSize: '0.5625rem' }}>Archived</span>}
               </div>
               <div style={{ padding: '1rem' }}>

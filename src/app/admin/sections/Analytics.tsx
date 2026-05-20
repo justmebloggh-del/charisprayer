@@ -21,12 +21,12 @@ export default function Analytics({ prayers, testimonies, posts, audios, videos,
   const stats = [
     { label: 'Prayer Requests', value: prayers.length, sub: `${prayers.filter(p => p.status === 'pending').length} pending`, icon: HandHeart, color: '#F59E0B' },
     { label: 'Testimonies', value: testimonies.length, sub: `${testimonies.filter(t => t.status === 'approved').length} approved`, icon: Star, color: '#10B981' },
-    { label: 'Devotions', value: devotions.length, sub: `${devotions.filter(d => d.published).length} published`, icon: BookHeart, color: '#4F46E5' },
+    { label: 'Devotions', value: devotions.length, sub: `${devotions.filter(d => d.published).length} published`, icon: BookHeart, color: '#C9A227' },
     { label: 'Blog Posts', value: posts.length, sub: `${posts.filter(p => p.status === 'published').length} published`, icon: BookOpen, color: '#3B82F6' },
     { label: 'Audio Tracks', value: audios.length, sub: `${totalPlays.toLocaleString()} total plays`, icon: Music2, color: '#8B5CF6' },
     { label: 'Videos', value: videos.length, sub: `${totalVideoViews.toLocaleString()} total views`, icon: Video, color: '#EF4444' },
     { label: 'Blog Views', value: totalViews.toLocaleString(), sub: 'across all posts', icon: Eye, color: '#3B82F6' },
-    { label: 'Devotion Views', value: totalDevotionViews.toLocaleString(), sub: 'across all devotions', icon: BookHeart, color: '#4F46E5' },
+    { label: 'Devotion Views', value: totalDevotionViews.toLocaleString(), sub: 'across all devotions', icon: BookHeart, color: '#C9A227' },
   ]
 
   const topPosts = [...posts].sort((a, b) => (b.views ?? 0) - (a.views ?? 0)).slice(0, 5)

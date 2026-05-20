@@ -148,7 +148,7 @@ const FALLBACK: BlogPost[] = [
 
 const catColors: Record<string, string> = {
   Prayer: '#F59E0B', Faith: '#3B82F6', Healing: '#10B981',
-  Intercession: '#EF4444', Grace: '#818CF8', Worship: '#EC4899',
+  Intercession: '#EF4444', Grace: '#F0D878', Worship: '#EC4899',
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -255,7 +255,7 @@ export default async function BlogPostPage({ params }: Props) {
 
           {/* Excerpt pull-quote */}
           <div style={{
-            background: 'linear-gradient(135deg, var(--card), rgba(79,70,229,0.04))',
+            background: 'linear-gradient(135deg, var(--card), rgba(201,162,39,0.04))',
             border: '1px solid var(--border-gold)', borderLeft: `4px solid ${color}`,
             borderRadius: 'var(--r)', padding: '1.5rem 1.75rem', marginBottom: '2.5rem',
           }}>
@@ -275,7 +275,7 @@ export default async function BlogPostPage({ params }: Props) {
         {/* CTA */}
         <div style={{
           marginTop: '3.5rem', padding: '2rem 2.5rem',
-          background: 'linear-gradient(135deg, var(--card), rgba(79,70,229,0.04))',
+          background: 'linear-gradient(135deg, var(--card), rgba(201,162,39,0.04))',
           border: '1px solid var(--border-gold)', borderRadius: 'var(--r-xl)',
           display: 'flex', flexDirection: 'column', gap: '1rem',
         }}>

@@ -75,7 +75,7 @@ export default function YouTubePlayer({ url, title = 'Video', thumbnail, rounded
           <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <div style={{
               width: '68px', height: '68px', borderRadius: '50%',
-              background: 'rgba(79,70,229,0.95)',
+              background: 'rgba(201,162,39,0.95)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
               transition: 'transform 0.18s ease, box-shadow 0.18s ease',

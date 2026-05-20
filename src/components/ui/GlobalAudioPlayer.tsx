@@ -28,7 +28,7 @@ export default function GlobalAudioPlayer() {
           exit={{ y: 100, opacity: 0 }}
           transition={{ type: 'spring', damping: 28, stiffness: 300 }}
           className="fixed bottom-0 left-0 right-0 z-[100]"
-          style={{ background: 'rgba(11,17,32,0.96)', backdropFilter: 'blur(24px)', borderTop: '1px solid rgba(79,70,229,0.15)' }}
+          style={{ background: 'rgba(11,17,32,0.96)', backdropFilter: 'blur(24px)', borderTop: '1px solid rgba(201,162,39,0.15)' }}
         >
           {/* Progress bar */}
           <div
@@ -39,7 +39,7 @@ export default function GlobalAudioPlayer() {
               seek(((e.clientX - rect.left) / rect.width) * 100)
             }}
           >
-            <div style={{ height: '100%', background: 'linear-gradient(90deg, #4F46E5, #818CF8)', transition: 'width 0.3s linear', width: `${progress}%` }} />
+            <div style={{ height: '100%', background: 'linear-gradient(90deg, #C9A227, #F0D878)', transition: 'width 0.3s linear', width: `${progress}%` }} />
           </div>
 
           <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0.75rem clamp(1rem,4vw,2rem)' }}>

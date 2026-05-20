@@ -2,6 +2,7 @@
 
 import { useState, useRef } from 'react'
 import { createClient } from '@/utils/supabase/client'
+import { uploadFile } from '@/utils/uploadFile'
 import { Plus, Pencil, Trash2, X, Loader2, Music2, Clock, Upload, FileAudio, Link2 } from 'lucide-react'
 import type { Audio as AudioTrack } from '@/lib/types'
 
@@ -37,23 +38,23 @@ export default function AudioManager({ initial }: { initial: AudioTrack[] }) {
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
   const [uploadMode, setUploadMode] = useState<'url' | 'file'>('url')
-  const [uploadFile, setUploadFile] = useState<File | null>(null)
+  const [pendingFile, setPendingFile] = useState<File | null>(null)
   const [uploading, setUploading] = useState(false)
   const [uploadProgress, setUploadProgress] = useState(0)
   const audioInputRef = useRef<HTMLInputElement>(null)
   const coverInputRef = useRef<HTMLInputElement>(null)
 
-  function openCreate() { setForm(BLANK); setEditing(null); setOpen(true); setError(''); setUploadFile(null); setUploadMode('url') }
+  function openCreate() { setForm(BLANK); setEditing(null); setOpen(true); setError(''); setPendingFile(null); setUploadMode('url') }
   function openEdit(t: AudioTrack) {
     setForm({ title: t.title, description: t.description ?? '', category: t.category, scripture: t.scripture ?? '', duration: t.duration, file_url: t.file_url, cover_url: t.cover_url ?? '', day_of_week: t.day_of_week, featured: t.featured })
-    setEditing(t); setOpen(true); setError(''); setUploadFile(null); setUploadMode(t.file_url ? 'url' : 'url')
+    setEditing(t); setOpen(true); setError(''); setPendingFile(null); setUploadMode(t.file_url ? 'url' : 'url')
   }
-  function closeForm() { setOpen(false); setEditing(null); setUploadFile(null) }
+  function closeForm() { setOpen(false); setEditing(null); setPendingFile(null) }
 
   async function handleAudioFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
     if (!file) return
-    setUploadFile(file)
+    setPendingFile(file)
     const dur = await getAudioDuration(file)
     if (dur) setForm(f => ({ ...f, duration: dur }))
   }
@@ -62,48 +63,35 @@ export default function AudioManager({ initial }: { initial: AudioTrack[] }) {
     const file = e.target.files?.[0]
     if (!file) return
     setUploading(true)
-    setUploadProgress(0)
     try {
-      const supabase = createClient()
-      const ext = file.name.split('.').pop()
-      const name = `covers/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`
-      const { error: upErr } = await supabase.storage.from('audio-files').upload(name, file, { cacheControl: '31536000', upsert: false })
-      if (upErr) throw upErr
-      const { data: { publicUrl } } = supabase.storage.from('audio-files').getPublicUrl(name)
-      setForm(f => ({ ...f, cover_url: publicUrl }))
+      const url = await uploadFile(file, { bucket: 'audio-files', folder: 'covers', onProgress: setUploadProgress })
+      setForm(f => ({ ...f, cover_url: url }))
     } catch (err: unknown) {
       setError((err as Error).message ?? 'Cover upload failed')
     } finally {
-      setUploading(false)
+      setUploading(false); setUploadProgress(0)
     }
   }
 
   async function save() {
     if (!form.title.trim()) { setError('Title is required.'); return }
-    if (uploadMode === 'file' && !uploadFile && !form.file_url) { setError('Please select an audio file or paste a URL.'); return }
+    if (uploadMode === 'file' && !pendingFile && !form.file_url) { setError('Please select an audio file or paste a URL.'); return }
     if (uploadMode === 'url' && !form.file_url.trim()) { setError('Audio file URL is required.'); return }
     if (!form.duration.trim()) { setError('Duration is required.'); return }
 
     setSaving(true); setError('')
     let fileUrl = form.file_url
 
-    if (uploadMode === 'file' && uploadFile) {
-      setUploading(true); setUploadProgress(10)
+    if (uploadMode === 'file' && pendingFile) {
+      setUploading(true); setUploadProgress(0)
       try {
-        const supabase = createClient()
-        const ext = uploadFile.name.split('.').pop()
-        const name = `tracks/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`
-        setUploadProgress(30)
-        const { error: upErr } = await supabase.storage.from('audio-files').upload(name, uploadFile, { cacheControl: '31536000', upsert: false })
-        if (upErr) throw upErr
-        setUploadProgress(80)
-        const { data: { publicUrl } } = supabase.storage.from('audio-files').getPublicUrl(name)
-        fileUrl = publicUrl
-        setUploadProgress(100)
+        fileUrl = await uploadFile(pendingFile, { bucket: 'audio-files', folder: 'tracks', onProgress: setUploadProgress })
       } catch (err: unknown) {
         setError((err as Error).message ?? 'File upload failed')
         setSaving(false); setUploading(false); return
-      } finally { setUploading(false) }
+      } finally {
+        setUploading(false); setUploadProgress(0)
+      }
     }
 
     const supabase = createClient()
@@ -199,23 +187,23 @@ export default function AudioManager({ initial }: { initial: AudioTrack[] }) {
                     style={{
                       border: '2px dashed var(--border-gold)', borderRadius: 'var(--r)',
                       padding: '1.5rem', textAlign: 'center', cursor: 'pointer',
-                      background: uploadFile ? 'rgba(201,162,39,0.04)' : 'var(--surface)',
+                      background: pendingFile ? 'rgba(201,162,39,0.04)' : 'var(--surface)',
                       transition: 'background 0.15s',
                     }}
                     onMouseEnter={e => (e.currentTarget.style.background = 'rgba(201,162,39,0.06)')}
-                    onMouseLeave={e => (e.currentTarget.style.background = uploadFile ? 'rgba(201,162,39,0.04)' : 'var(--surface)')}
+                    onMouseLeave={e => (e.currentTarget.style.background = pendingFile ? 'rgba(201,162,39,0.04)' : 'var(--surface)')}
                   >
-                    {uploadFile ? (
+                    {pendingFile ? (
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.625rem' }}>
                         <FileAudio size={18} style={{ color: 'var(--gold)' }} />
-                        <span style={{ fontSize: '0.875rem', color: 'var(--text-2)', fontWeight: 600 }}>{uploadFile.name}</span>
-                        <span style={{ fontSize: '0.75rem', color: 'var(--text-3)' }}>({(uploadFile.size / 1024 / 1024).toFixed(1)} MB)</span>
+                        <span style={{ fontSize: '0.875rem', color: 'var(--text-2)', fontWeight: 600 }}>{pendingFile.name}</span>
+                        <span style={{ fontSize: '0.75rem', color: 'var(--text-3)' }}>({(pendingFile.size / 1024 / 1024).toFixed(1)} MB)</span>
                       </div>
                     ) : (
                       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}>
                         <Upload size={22} style={{ color: 'var(--gold)', opacity: 0.7 }} />
                         <p style={{ fontSize: '0.875rem', color: 'var(--text-2)', fontWeight: 500 }}>Click to choose audio file</p>
-                        <p style={{ fontSize: '0.75rem', color: 'var(--text-3)' }}>MP3, WAV, M4A, AAC — max 500 MB</p>
+                        <p style={{ fontSize: '0.75rem', color: 'var(--text-3)' }}>MP3, WAV, M4A, AAC — any size</p>
                       </div>
                     )}
                   </div>
